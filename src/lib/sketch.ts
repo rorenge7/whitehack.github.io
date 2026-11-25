@@ -47,3 +47,16 @@ export function blobPath(seed: number, wobble = 0.18) {
   }
   return d + "Z";
 }
+
+/** クレヨンで引いた横線：細かく上下に揺れる */
+export function scribble(x1: number, x2: number, y: number, wave: number, seed: number) {
+  const r = rng(seed);
+  const steps = 9;
+  let d = `M${x1} ${y + (r() - 0.5) * wave}`;
+  for (let i = 1; i <= steps; i++) {
+    const x = x1 + ((x2 - x1) * i) / steps;
+    const cx = x - (x2 - x1) / steps / 2;
+    d += ` Q${cx.toFixed(1)} ${(y + (r() - 0.5) * 2 * wave).toFixed(1)} ${x.toFixed(1)} ${(y + (r() - 0.5) * wave).toFixed(1)}`;
+  }
+  return d;
+}

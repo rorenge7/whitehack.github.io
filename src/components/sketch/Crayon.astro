@@ -1,9 +1,10 @@
 ---
 // クレヨンで塗った形（shape="blob"）と、クレヨンの下線（shape="underline"）
-import { blobPath } from "../../lib/sketch";
+import { blobPath, scribble } from "../../lib/sketch";
 interface Props { shape?: "blob" | "underline"; color: string; strength?: 1 | 2 | 3; seed?: number; class?: string; }
 const { shape = "blob", color, strength = 2, seed = 11, class: cls } = Astro.props;
-const edge = [0, 3, 6, 10][strength];      // 輪郭のがたつき
+const edge = [0, 6, 10, 14][strength];     // 輪郭のがたつき
+const wave = [0, 2.6, 4, 5.5][strength];    // 線の揺れ
 const grain = [0, 0.55, 0.8, 1.05][strength]; // 紙の目の抜け具合
 const id = `cr-${shape}-${seed}-${strength}`;
 ---
@@ -18,12 +19,12 @@ const id = `cr-${shape}-${seed}-${strength}`;
     </filter>
   </defs>
   {shape === "blob"
-    ? <path d={blobPath(seed)} fill={color} filter={`url(#${id})`} />
-    : <path d="M6 11 C80 7, 180 13, 294 9" fill="none" stroke={color} stroke-width="9" stroke-linecap="round" filter={`url(#${id})`} />}
+    ? <path d={blobPath(seed, 0.24)} fill={color} filter={`url(#${id})`} />
+    : <g filter={`url(#${id})`} fill="none" stroke={color} stroke-linecap="round"><path d={scribble(8, 292, 10, wave, seed)} stroke-width="8" /><path d={scribble(14, 286, 11, wave, seed + 4)} stroke-width="5" opacity=".7" /></g>}
 </svg>
 
 <style>
   .crayon { display: block; }
   .blob { width: 100%; height: auto; }
-  .underline { width: 100%; height: 14px; }
+  .underline { width: 100%; height: 18px; }
 </style>
