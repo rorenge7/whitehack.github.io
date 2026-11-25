@@ -1,0 +1,33 @@
+---
+// 色鉛筆で枠を引いたボックス。四隅に合わせの十字
+import { wobblyRect } from "../../lib/sketch";
+interface Props { strength?: 1 | 2 | 3; color?: string; marks?: boolean; seed?: number; }
+const { strength = 2, color = "var(--pencil)", marks = true, seed = 7 } = Astro.props;
+const jitter = [0, 0.6, 1.2, 2.2][strength];
+const id = `pf-${seed}-${strength}`;
+const grain = [0, 0.8, 1.4, 2.2][strength];
+---
+<div class="pencil-box" style={`--line:${color}`}>
+  <svg class="frame" viewBox="0 0 200 100" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <filter id={id}><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" result="n" /><feDisplacementMap in="SourceGraphic" in2="n" scale={grain} /></filter>
+    </defs>
+    <g filter={`url(#${id})`} fill="none" stroke="var(--line)" stroke-linecap="round" vector-effect="non-scaling-stroke">
+      <path d={wobblyRect(200, 100, jitter, seed)} stroke-width="1.4" vector-effect="non-scaling-stroke" opacity=".9" />
+      <path d={wobblyRect(200, 100, jitter, seed + 10, 2.6)} stroke-width=".7" vector-effect="non-scaling-stroke" opacity=".45" />
+    </g>
+  </svg>
+  {marks && ["tl", "tr", "bl", "br"].map((p) => (
+    <svg class={`mark ${p}`} viewBox="0 0 20 20" aria-hidden="true"><path d="M0 10H20M10 0V20" stroke="var(--line)" stroke-width="1.1" /></svg>
+  ))}
+  <div class="pencil-body"><slot /></div>
+</div>
+
+<style>
+  .pencil-box { position: relative; padding: 32px 32px 28px; }
+  .frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .mark { position: absolute; width: 18px; height: 18px; }
+  .tl { left: -6px; top: -6px; } .tr { right: -6px; top: -6px; }
+  .bl { left: -6px; bottom: -6px; } .br { right: -6px; bottom: -6px; }
+  .pencil-body { position: relative; }
+</style>

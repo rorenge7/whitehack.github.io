@@ -1,0 +1,140 @@
+---
+// デザイン部品の見本（公開前に削除 or noindex のまま）
+import PencilBox from "../components/sketch/PencilBox.astro";
+import PencilRule from "../components/sketch/PencilRule.astro";
+import Crayon from "../components/sketch/Crayon.astro";
+const levels = [1, 2, 3] as const;
+const label = { 1: "弱", 2: "中", 3: "強" };
+---
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>部品見本｜白白</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Kiwi+Maru:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <main>
+    <header class="intro">
+      <p class="note">部品の見本（色は仮）。線とかすれの強さを「弱・中・強」で比べられます。</p>
+    </header>
+
+    <!-- ===== 色鉛筆 ===== -->
+    <section>
+      <h1 class="sec-title pencil-font">色鉛筆の製図<small>受託開発・会社情報</small></h1>
+      <div class="grid3">
+        {levels.map((s) => (
+          <div>
+            <p class="lv">{label[s]}</p>
+            <PencilBox strength={s} seed={s * 13}>
+              <p class="kicker">企業の方へ</p>
+              <h2 class="pencil-font h2">受託開発</h2>
+              <PencilRule strength={s} seed={s * 7} />
+              <p class="body">Webアプリ、業務システムの開発を、要件の整理から保守まで一貫してお引き受けします。</p>
+              <PencilRule strength={s} seed={s * 9} dashed />
+              <p class="body small">対応領域　Webアプリ／業務システム</p>
+            </PencilBox>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== クレヨン ===== -->
+    <section>
+      <h1 class="sec-title crayon-font">クレヨン<small>自社サービス</small></h1>
+      <div class="grid3">
+        {levels.map((s, i) => (
+          <div>
+            <p class="lv">{label[s]}</p>
+            <div class="svc-card">
+              <Crayon color={["var(--c1)", "var(--c2)", "var(--c3)"][i]} strength={s} seed={20 + i} class="card-blob" />
+              <span class="status">準備中</span>
+              <h2 class="crayon-font h2">サービスA</h2>
+              <div class="ul-wrap"><Crayon shape="underline" color={["var(--c1)", "var(--c2)", "var(--c3)"][i]} strength={s} seed={40 + i} /></div>
+              <p class="body">親子の時間を、もっとあたたかくするアプリ。</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== 1枚の紙で同居させた例 ===== -->
+    <section>
+      <h1 class="sec-title pencil-font">組み合わせた例<small>トップページのイメージ（強さは「中」）</small></h1>
+      <div class="sheet">
+        <div class="sheet-copy">
+          <h2 class="pencil-font hero">白白は、<br />いくつもの色をもつ会社です。</h2>
+          <PencilRule strength={2} seed={99} />
+        </div>
+        <div class="sheet-grid">
+          <PencilBox strength={2} seed={61}>
+            <p class="kicker">企業の方へ</p>
+            <h3 class="pencil-font h2">受託開発</h3>
+            <p class="body small">要件の整理から、保守まで。</p>
+          </PencilBox>
+          <div class="sheet-services">
+            {["var(--c1)", "var(--c3)", "var(--c2)"].map((c, i) => (
+              <a class="spot" href="#">
+                <Crayon color={c} strength={2} seed={70 + i} class="spot-blob" />
+                <span class="crayon-font">サービス{"ABC"[i]}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+
+<style is:global>
+  :root {
+    --paper: #fffdf8;
+    --ink: #2a2d31;
+    --sub: #5b6270;
+    --pencil: #3b6fd1;  /* 青の色鉛筆 */
+    --c1: #ef8a3a;      /* クレヨン：オレンジ */
+    --c2: #e05a4c;      /* クレヨン：赤 */
+    --c3: #efb83c;      /* クレヨン：黄 */
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Zen Kaku Gothic New", sans-serif; line-height: 1.85; }
+  main { width: min(1120px, calc(100% - 48px)); margin: 0 auto; padding: 40px 0 96px; }
+  h1, h2, h3, p { margin: 0; }
+  .pencil-font { font-family: "Klee One", serif; font-weight: 600; }
+  .crayon-font { font-family: "Kiwi Maru", serif; font-weight: 500; }
+  .note { font-size: 13px; color: var(--sub); }
+  section { margin-top: 64px; }
+  .sec-title { font-size: 26px; display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px; }
+  .sec-title small { font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 400; font-size: 13px; color: var(--sub); }
+  .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+  .lv { font-size: 13px; color: var(--sub); margin-bottom: 14px; }
+  .kicker { font-size: 12px; color: var(--pencil); font-weight: 700; }
+  .h2 { font-size: 24px; line-height: 1.5; }
+  .body { font-size: 14px; color: #444950; }
+  .small { font-size: 13px; }
+
+  .svc-card { position: relative; padding: 28px 24px 24px; border-radius: 24px; background: #fff; box-shadow: inset 0 0 0 1px #ece7dd; overflow: hidden; }
+  .svc-card .card-blob { position: absolute; right: -16px; top: -16px; width: 110px; }
+  .status { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 12px; border-radius: 99px; background: #fbefe2; color: #8a3f10; }
+  .svc-card .h2 { margin-top: 32px; }
+  .ul-wrap { width: 132px; margin: -2px 0 10px; }
+
+  .sheet { padding: 48px; background: #fff; border: 1px solid #ece7dd; border-radius: 6px; }
+  .hero { font-size: clamp(26px, 3.4vw, 40px); line-height: 1.5; }
+  .sheet-copy { max-width: 560px; }
+  .sheet-grid { display: grid; grid-template-columns: 5fr 6fr; gap: 56px; margin-top: 32px; align-items: center; }
+  .sheet-services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .spot { text-decoration: none; color: var(--ink); text-align: center; }
+  .spot .spot-blob { width: 100%; }
+  .spot span { display: block; margin-top: 4px; font-size: 16px; }
+
+  @media (max-width: 860px) {
+    .grid3, .sheet-grid { grid-template-columns: 1fr; }
+    .sheet { padding: 24px; }
+  }
+</style>

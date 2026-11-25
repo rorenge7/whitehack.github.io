@@ -1,0 +1,29 @@
+---
+// クレヨンで塗った形（shape="blob"）と、クレヨンの下線（shape="underline"）
+import { blobPath } from "../../lib/sketch";
+interface Props { shape?: "blob" | "underline"; color: string; strength?: 1 | 2 | 3; seed?: number; class?: string; }
+const { shape = "blob", color, strength = 2, seed = 11, class: cls } = Astro.props;
+const edge = [0, 3, 6, 10][strength];      // 輪郭のがたつき
+const grain = [0, 0.55, 0.8, 1.05][strength]; // 紙の目の抜け具合
+const id = `cr-${shape}-${seed}-${strength}`;
+---
+<svg class:list={["crayon", shape, cls]} viewBox={shape === "blob" ? "0 0 100 100" : "0 0 300 20"} preserveAspectRatio={shape === "blob" ? "xMidYMid meet" : "none"} aria-hidden="true">
+  <defs>
+    <filter id={id} x="-10%" y="-30%" width="120%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed={seed} result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale={edge} result="d" />
+      <feTurbulence type="fractalNoise" baseFrequency="2.4" numOctaves="1" seed={seed + 1} result="g" />
+      <feColorMatrix in="g" type="matrix" values={`0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -2.2 ${grain}`} result="m" />
+      <feComposite in="d" in2="m" operator="out" />
+    </filter>
+  </defs>
+  {shape === "blob"
+    ? <path d={blobPath(seed)} fill={color} filter={`url(#${id})`} />
+    : <path d="M6 11 C80 7, 180 13, 294 9" fill="none" stroke={color} stroke-width="9" stroke-linecap="round" filter={`url(#${id})`} />}
+</svg>
+
+<style>
+  .crayon { display: block; }
+  .blob { width: 100%; height: auto; }
+  .underline { width: 100%; height: 14px; }
+</style>
