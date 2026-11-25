@@ -5,19 +5,15 @@ import HeroSketch from "../components/sketch/HeroSketch.astro";
 import PencilBox from "../components/sketch/PencilBox.astro";
 import PencilRule from "../components/sketch/PencilRule.astro";
 import Crayon from "../components/sketch/Crayon.astro";
-import { company } from "../site";
+import { company, contractServices, contractLead, servicesComingSoon } from "../site";
 
 const services = (await getCollection("services", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
 const news = (await getCollection("news", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
-const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order || +b.data.date - +a.data.date).slice(0, 3);
 const fmt = (d: Date) => d.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", ".");
 const crayonColor = { orange: "var(--crayon-orange)", red: "var(--crayon-red)", yellow: "var(--crayon-yellow)", blue: "var(--pencil)" } as const;
 
-const contract = [
-  { title: "Webアプリ開発", text: "会員機能や管理画面を備えたWebアプリケーション" },
-  { title: "業務システム開発", text: "Excelや紙の業務を、使い続けられるシステムに" },
-  { title: "Webサイト制作", text: "更新しやすい構成のコーポレート・サービスサイト" },
-];
+const contract = contractServices;
 ---
 <Base>
   <div class="top">
@@ -48,7 +44,7 @@ const contract = [
         <div class="contract-head">
           <p class="kicker-pencil">企業の方へ</p>
           <h2 class="pencil-font">受託開発</h2>
-          <p class="muted">Webアプリ、業務システム、Webサイトの開発を、要件の整理から公開後の保守まで一貫してお引き受けします。</p>
+          <p class="muted">{contractLead}</p>
           <p class="more"><a class="link-pencil" href="/contract/">受託開発について</a></p>
         </div>
         <PencilBox strength={2} seed={57}>
@@ -74,6 +70,16 @@ const contract = [
           <p class="muted">白白が企画・開発・運営しているサービスです。</p>
         </div>
         <ul class="service-cards">
+          {services.length === 0 && (
+            <li>
+              <div class="coming-soon">
+                <Crayon color="var(--crayon-orange)" strength={2} seed={95} class="card-blob" />
+                <span class="status">準備中</span>
+                <h3 class="crayon-font">近日公開</h3>
+                <p>{servicesComingSoon}</p>
+              </div>
+            </li>
+          )}
           {services.map((s, i) => (
             <li>
               <a href={`/services/${s.id}/`}>
@@ -85,7 +91,7 @@ const contract = [
             </li>
           ))}
         </ul>
-        <p class="more"><a class="link-crayon" href="/services/">すべてのサービス</a></p>
+        {services.length > 0 && <p class="more"><a class="link-crayon" href="/services/">すべてのサービス</a></p>}
       </div>
     </section>
 
@@ -98,7 +104,7 @@ const contract = [
             {works.map((w, i) => (
               <li>
                 <PencilRule strength={2} seed={120 + i} />
-                <a href={`/works/${w.id}/`}><span class="cat">{w.data.category}</span><span class="ttl">{w.data.title}</span><span class="muted sm">{w.data.client}</span></a>
+                <a href={`/works/${w.id}/`}><span class="cat">{w.data.category}</span><span class="ttl">{w.data.title}</span><span class="muted sm">{w.data.client ?? w.data.category}</span></a>
               </li>
             ))}
           </ul>
@@ -197,7 +203,8 @@ const contract = [
   .services-head { margin-bottom: 40px; }
   .services-underline { width: 190px; margin: 2px 0 12px; }
   .service-cards { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-  .service-cards a { position: relative; display: block; height: 100%; padding: 28px; border-radius: 24px; background: #fff; text-decoration: none; overflow: hidden; box-shadow: inset 0 0 0 1px #ece6da; transition: transform .2s; }
+  .service-cards .coming-soon, .service-cards a { position: relative; display: block; height: 100%; padding: 28px; border-radius: 24px; background: #fff; text-decoration: none; overflow: hidden; box-shadow: inset 0 0 0 1px #ece6da; transition: transform .2s; }
+  .service-cards .coming-soon { grid-column: 1 / -1; max-width: 640px; }
   .service-cards a:hover { transform: translateY(-3px); }
   .service-cards :global(.card-blob) { position: absolute; right: -18px; top: -18px; width: 112px; }
   .status { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 12px; border-radius: 99px; background: #fbefe2; color: #8a3f10; }

@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Blob from "../../components/Blob.astro";
+import { servicesComingSoon } from "../../site";
 
 const services = (await getCollection("services", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -16,6 +17,7 @@ const services = (await getCollection("services", ({ data }) => data.published))
 
   <section class="section">
     <div class="wrap">
+      {services.length === 0 && <p class="lead-empty">{servicesComingSoon}</p>}
       <ul class="list">
         {services.map((s, i) => (
           <li data-theme={s.data.color}>
@@ -35,6 +37,7 @@ const services = (await getCollection("services", ({ data }) => data.published))
 </Base>
 
 <style>
+  .lead-empty { font-size: 18px; max-width: 34em; }
   .list { list-style: none; padding: 0; display: grid; gap: 20px; }
   .list a { display: grid; grid-template-columns: 120px 1fr; gap: 32px; align-items: center; padding: 32px; border-radius: 28px; background: var(--soft); text-decoration: none; transition: transform .2s; }
   .list a:hover { transform: translateY(-2px); }

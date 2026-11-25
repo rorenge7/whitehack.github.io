@@ -24,11 +24,13 @@ const works = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/works" }),
   schema: z.object({
     title: z.string(),
-    client: z.string(), // 非公開なら「製造業 A社」など
+    client: z.string().optional(), // 社名は出さず業種で（例：住宅メーカー）
+    team: z.string().optional(), // 体制（例：全3名（技術責任者））
     category: z.string(), // 例：業務システム / Webアプリ
     period: z.string().optional(),
     stack: z.array(z.string()).default([]),
     date: z.coerce.date(),
+    order: z.number().default(100), // 小さいほど先に表示
     published: z.boolean().default(true),
   }),
 });

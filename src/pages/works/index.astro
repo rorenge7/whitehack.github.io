@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Cta from "../../components/Cta.astro";
 
-const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date);
+const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order || +b.data.date - +a.data.date);
 ---
 <Base title="実績" description="株式会社白白の受託開発の実績・制作事例です。" theme="blue" shape="square">
   <section class="page-head">
@@ -21,7 +21,7 @@ const works = (await getCollection("works", ({ data }) => data.published)).sort(
             <a href={`/works/${w.id}/`}>
               <span class="cat">{w.data.category}</span>
               <h2>{w.data.title}</h2>
-              <p class="muted">{w.data.client}{w.data.period && `／${w.data.period}`}</p>
+              <p class="muted">{[w.data.client, w.data.period].filter(Boolean).join("／")}</p>
               {w.data.stack.length > 0 && <ul class="stack">{w.data.stack.map((t) => <li>{t}</li>)}</ul>}
             </a>
           </li>

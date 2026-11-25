@@ -11,7 +11,7 @@ const { work } = Astro.props;
 const { Content } = await render(work);
 const d = work.data;
 ---
-<Base title={d.title} description={`${d.client}：${d.title}`} theme="blue" shape="square">
+<Base title={d.title} description={d.client ? `${d.client}：${d.title}` : d.title} theme="blue" shape="square">
   <section class="page-head">
     <div class="wrap">
       <p class="kicker"><a href="/works/" style="text-decoration:none">実績</a></p>
@@ -21,9 +21,10 @@ const d = work.data;
   <section class="section">
     <div class="narrow">
       <dl class="data-table">
-        <div><dt>お客様</dt><dd>{d.client}</dd></div>
+        {d.client && <div><dt>お客様</dt><dd>{d.client}</dd></div>}
         <div><dt>種別</dt><dd>{d.category}</dd></div>
         {d.period && <div><dt>期間</dt><dd>{d.period}</dd></div>}
+        {d.team && <div><dt>体制</dt><dd>{d.team}</dd></div>}
         {d.stack.length > 0 && <div><dt>主な技術</dt><dd>{d.stack.join("、")}</dd></div>}
       </dl>
       <div class="prose" style="margin-top:48px"><Content /></div>

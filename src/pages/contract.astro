@@ -3,15 +3,11 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Blob from "../components/Blob.astro";
 import Cta from "../components/Cta.astro";
-import { company } from "../site";
+import { company, contractServices, contractLead, profile } from "../site";
 
-const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order || +b.data.date - +a.data.date).slice(0, 3);
 
-const services = [
-  { title: "Webアプリ開発", text: "会員機能や管理画面を備えたWebアプリケーションを、目的と運用体制に合わせて設計・開発します。", items: ["要件整理・画面設計", "フロントエンド／バックエンド実装", "公開後の改善"] },
-  { title: "業務システム開発", text: "Excelや紙で回している業務を整理し、現場で使い続けられるシステムに置き換えます。", items: ["業務フローの整理", "データ・API設計", "既存ツールとの連携"] },
-  { title: "Webサイト制作", text: "コーポレートサイトやサービスサイトを、更新しやすい構成で制作します。", items: ["構成・原稿整理", "デザイン・実装", "公開・運用"] },
-];
+const services = contractServices;
 const steps = [
   { title: "ヒアリング", text: "課題、実現したいこと、予算と時期の感触を伺います。" },
   { title: "ご提案・お見積り", text: "開発範囲と進め方を整理し、作業ごとの内訳つきで見積りをお出しします。" },
@@ -25,7 +21,7 @@ const steps = [
     <div class="wrap">
       <p class="kicker">企業の方へ</p>
       <h1>受託開発</h1>
-      <p class="lead">Webアプリ、業務システム、Webサイトの開発を、要件の整理から公開後の保守まで一貫してお引き受けします。</p>
+      <p class="lead">{contractLead}</p>
     </div>
     <Blob color="var(--blue)" variant={0} class="head-paint" />
   </section>
@@ -38,7 +34,7 @@ const steps = [
           <article class="svc">
             <h3>{s.title}</h3>
             <p>{s.text}</p>
-            <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
+            {s.note && <p class="note">{s.note}</p>}
           </article>
         ))}
       </div>
@@ -61,14 +57,16 @@ const steps = [
       <div>
         <h2 class="section-title">担当者</h2>
         <p class="name">{company.representative}</p>
-        <p class="muted">代表</p>
+        <p class="muted">{company.title}</p>
       </div>
       <div>
         <p class="profile-lead">ご相談の窓口から設計・開発まで、代表が直接担当します。伝えた内容がそのまま形になり、判断も速く進みます。</p>
-        <p style="margin-top:20px"><span class="todo">【要記入】経歴（前職、開発年数、得意な分野など）</span></p>
+        <p style="margin-top:20px">{profile.summary}</p>
         <dl class="data-table" style="margin-top:28px">
-          <div><dt>主な技術</dt><dd><span class="todo">【要記入】例：TypeScript、React、Next.js、Python、AWS</span></dd></div>
+          <div><dt>主な資格</dt><dd>{profile.qualifications.map((q) => <>{q}<br /></>)}</dd></div>
+          <div><dt>主な技術</dt><dd>{profile.skills}</dd></div>
         </dl>
+        <p style="margin-top:20px"><a class="text-link" href="/company/#profile">経歴をくわしく見る</a></p>
       </div>
     </div>
   </section>
@@ -82,7 +80,7 @@ const steps = [
         </div>
         <ul class="work-cards">
           {works.map((w) => (
-            <li><a href={`/works/${w.id}/`}><span class="cat">{w.data.category}</span><h3>{w.data.title}</h3><p class="muted">{w.data.client}{w.data.period && `／${w.data.period}`}</p></a></li>
+            <li><a href={`/works/${w.id}/`}><span class="cat">{w.data.category}</span><h3>{w.data.title}</h3><p class="muted">{[w.data.client, w.data.period].filter(Boolean).join("／")}</p></a></li>
           ))}
         </ul>
       </div>
@@ -95,12 +93,12 @@ const steps = [
 <style>
   .page-head { padding-right: 0; }
   :global(.head-paint) { position: absolute; right: max(4vw, 24px); top: 50%; translate: 0 -50%; width: clamp(120px, 18vw, 240px); opacity: .95; }
-  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 2px solid var(--deep); }
+  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); row-gap: 8px; gap: 0; border-top: 2px solid var(--deep); }
   .svc { padding: 32px 28px 8px 0; }
   .svc + .svc { padding-left: 28px; border-left: 1px solid var(--rule); }
   .svc h3 { font-size: 20px; }
   .svc p { margin-top: 12px; color: var(--sub); font-size: 15px; }
-  .svc ul { margin-top: 16px; padding-left: 1.2em; font-size: 14px; }
+  .svc .note { margin-top: 12px; font-size: 13px; color: var(--deep); }
   .svc li::marker { color: var(--paint); }
 
   .steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
