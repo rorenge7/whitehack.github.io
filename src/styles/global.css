@@ -23,6 +23,7 @@
   --crayon-red: #e05a4c;
   --crayon-yellow: #efb83c;
   --font-pencil: "Klee One", "Zen Kaku Gothic New", serif;
+  --font-pencil-head: "Zen Kurenaido", "Klee One", sans-serif;
   --font-crayon: "Kiwi Maru", "Zen Kaku Gothic New", serif;
 
   --font: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
@@ -73,7 +74,7 @@ a { color: inherit; }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 24px; }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; font-size: 18px; letter-spacing: 0.12em; }
 .logo small { font-size: 11px; color: var(--sub); letter-spacing: 0.08em; font-weight: 500; }
-.gnav { display: flex; align-items: center; gap: 4px; font-size: 14px; }
+.gnav { display: flex; align-items: center; gap: 4px; font-size: 14px; font-family: var(--font-pencil); font-weight: 600; }
 .gnav a { text-decoration: none; color: var(--sub); padding: 8px 12px; border-radius: 4px; }
 .gnav a:hover { color: var(--ink); background: var(--paper); }
 .gnav a[aria-current="page"] { color: var(--ink); font-weight: 700; }

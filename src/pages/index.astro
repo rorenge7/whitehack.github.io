@@ -158,9 +158,11 @@ const contract = [
 </Base>
 
 <style>
-  .top { background: var(--paper-warm); }
-  .pencil-font { font-family: var(--font-pencil); font-weight: 600; }
+  .top { background: var(--paper-warm); font-family: var(--font-pencil); }
+  .pencil-font { font-family: var(--font-pencil-head); font-weight: 400; }
+  .hero h1.pencil-font { font-family: var(--font-pencil); font-weight: 600; }
   .crayon-font { font-family: var(--font-crayon); font-weight: 500; }
+  .block-tint:has(.service-cards) { font-family: var(--font-crayon); }
   .muted { color: var(--sub); }
   .sm { font-size: 14px; }
   .more { margin-top: 28px; }
