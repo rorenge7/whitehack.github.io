@@ -16,6 +16,15 @@
   --orange: #f2801f; --orange-deep: #a84c0b; --orange-soft: #fef2e7; --on-orange: #3d1d04;
   --yellow: #f5b82e; --yellow-deep: #855600; --yellow-soft: #fef7e1; --on-yellow: #3d2a00;
 
+  /* 鉛筆とクレヨン */
+  --paper-warm: #fffdf8;
+  --pencil: #3b6fd1;
+  --crayon-orange: #ef8a3a;
+  --crayon-red: #e05a4c;
+  --crayon-yellow: #efb83c;
+  --font-pencil: "Klee One", "Zen Kaku Gothic New", serif;
+  --font-crayon: "Kiwi Maru", "Zen Kaku Gothic New", serif;
+
   --font: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
   --font-round: "Zen Maru Gothic", var(--font);
 
