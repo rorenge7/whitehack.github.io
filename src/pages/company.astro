@@ -1,0 +1,48 @@
+---
+import Base from "../layouts/Base.astro";
+import Cta from "../components/Cta.astro";
+import { company } from "../site";
+
+const todo = "【要記入】";
+---
+<Base title="会社概要" description="株式会社白白の会社概要。所在地、設立、資本金、法人番号、事業内容。">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>会社概要</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="narrow">
+      <dl class="data-table">
+        <div><dt>商号</dt><dd>{company.name}（{company.kana}）<br /><span class="muted">{company.en}</span></dd></div>
+        <div><dt>代表者</dt><dd>代表取締役　{company.representative}</dd></div>
+        <div><dt>所在地</dt><dd>
+          {company.postalCode ? `〒${company.postalCode}` : <span class="todo">〒{todo}</span>}<br />
+          {company.address}{company.address === "東京都新宿区" && <span class="todo">{todo}</span>}
+        </dd></div>
+        <div><dt>設立</dt><dd>{company.founded}</dd></div>
+        <div><dt>資本金</dt><dd>{company.capital || <span class="todo">{todo}</span>}</dd></div>
+        <div><dt>法人番号</dt><dd>{company.corporateNumber || <span class="todo">{todo}</span>}</dd></div>
+        <div><dt>事業内容</dt><dd>{company.business.map((b) => <>{b}<br /></>)}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section-alt">
+    <div class="narrow">
+      <h2 class="section-title">代表あいさつ</h2>
+      <p class="name">代表取締役　{company.representative}</p>
+      <div class="prose" style="margin-top:24px">
+        <p><span class="todo">【要記入】会社を始めた理由、受託開発と自社サービスの両方に取り組む理由、大切にしていることなど（200〜400字程度）</span></p>
+        <p><span class="todo">【要記入】経歴</span></p>
+      </div>
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<style>
+  .name { font-weight: 700; letter-spacing: 0.12em; }
+</style>

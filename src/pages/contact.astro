@@ -1,0 +1,41 @@
+---
+import Base from "../layouts/Base.astro";
+import { company } from "../site";
+---
+<Base title="お問い合わせ" description="株式会社白白へのお問い合わせ。">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>お問い合わせ</h1>
+      <p class="lead">開発のご依頼、サービスについてのご質問、お取引や取材のご相談など、下記のフォームから受け付けています。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="narrow">
+      <div class="choices">
+        <div class="choice" data-theme="blue">
+          <h2>開発のご相談</h2>
+          <p>会社名・ご担当者名、ご相談の内容、ご希望の時期・予算の目安（未定でも構いません）をお知らせください。</p>
+        </div>
+        <div class="choice" data-theme="orange">
+          <h2>サービスについて</h2>
+          <p>どのサービスについてのお問い合わせかを、本文に書き添えてください。</p>
+        </div>
+      </div>
+      <p class="action">
+        <a class="btn" style="background:var(--ink)" href={company.contactUrl} target="_blank" rel="noopener noreferrer">お問い合わせフォームを開く</a>
+      </p>
+      <p class="muted note">Googleフォームが新しいタブで開きます。内容を確認のうえ、担当者からご連絡します。いただいた情報は<a href="/privacy/">プライバシーポリシー</a>に沿って取り扱います。</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .choice { background: var(--soft); border-top: 4px solid var(--paint); padding: 24px; }
+  .choice h2 { font-size: 18px; }
+  .choice p { font-size: 14px; margin-top: 8px; color: var(--sub); }
+  .action { margin-top: 40px; }
+  .note { font-size: 13px; margin-top: 16px; }
+  @media (max-width: 640px) { .choices { grid-template-columns: 1fr; } }
+</style>

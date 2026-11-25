@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const news = (await getCollection("news", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date);
+const fmt = (d: Date) => d.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", ".");
+---
+<Base title="お知らせ" description="株式会社白白からのお知らせ・ブログ。">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>お知らせ</h1>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      <ul class="post-list">
+        {news.map((n) => (
+          <li><a href={`/news/${n.id}/`}><time datetime={n.data.date.toISOString()}>{fmt(n.data.date)}</time><span class="tag">{n.data.category}</span><span class="post-title">{n.data.title}</span></a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>

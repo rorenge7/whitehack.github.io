@@ -1,0 +1,204 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Blob from "../components/Blob.astro";
+import Cta from "../components/Cta.astro";
+import { company } from "../site";
+
+const services = (await getCollection("services", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
+const news = (await getCollection("news", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 4);
+const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+const fmt = (d: Date) => d.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", ".");
+
+// パレット上の配置（受託開発 + 自社サービス）
+const spots = [
+  { x: 0, y: 4, size: 42 },
+  { x: 56, y: 0, size: 30 },
+  { x: 62, y: 47, size: 28 },
+  { x: 20, y: 61, size: 26 },
+];
+---
+<Base>
+  <!-- ===== Hero：白いパレット ===== -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <h1>白白は、<br />いくつもの色をもつ会社です。</h1>
+        <p class="hero-lead">
+          企業のシステムをつくる受託開発と、暮らしに寄りそう自社サービス。
+          事業ごとに色を変えながら、ひとつの会社として責任をもって運営しています。
+        </p>
+      </div>
+
+      <div class="palette" role="list" aria-label="白白の事業">
+        <a class="spot" role="listitem" href="/contract/"
+           style={`--x:${spots[0].x}%;--y:${spots[0].y}%;--s:${spots[0].size}%`}>
+          <Blob color="var(--blue)" variant={0} class="spot-paint" />
+          <span class="spot-label"><small>企業の方へ</small>受託開発</span>
+        </a>
+        {services.slice(0, 3).map((s, i) => (
+          <a class="spot" role="listitem" href={`/services/${s.id}/`}
+             style={`--x:${spots[i + 1].x}%;--y:${spots[i + 1].y}%;--s:${spots[i + 1].size}%`}>
+            <Blob color={`var(--${s.data.color})`} variant={((i + 1) % 4) as 0 | 1 | 2 | 3} class="spot-paint" />
+            <span class="spot-label"><small>{s.data.status}</small>{s.data.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 受託開発（青） ===== -->
+  <section class="section" data-theme="blue" data-shape="square">
+    <div class="wrap business">
+      <div class="business-head">
+        <p class="chip">企業の方へ</p>
+        <h2 class="section-title">受託開発</h2>
+      </div>
+      <div class="business-body">
+        <p class="business-lead">Webサイト、Webアプリ、業務システムの開発を、要件の整理から公開後の保守まで一貫してお引き受けします。</p>
+        <dl class="facts">
+          <div><dt>対応領域</dt><dd>Webアプリ／業務システム／コーポレートサイト</dd></div>
+          <div><dt>進め方</dt><dd>ヒアリング → 見積り → 設計 → 開発 → 保守</dd></div>
+          <div><dt>体制</dt><dd>代表が窓口から開発まで直接担当</dd></div>
+        </dl>
+        <div class="row-links">
+          <a class="btn" href="/contract/">受託開発について</a>
+          <a class="text-link" href="/works/">実績を見る</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 自社サービス（各色） ===== -->
+  <section class="section-alt" data-shape="round">
+    <div class="wrap">
+      <div class="section-title-row">
+        <h2 class="section-title">自社サービス</h2>
+        <a class="text-link" href="/services/" style="color:var(--ink)">すべて見る</a>
+      </div>
+      <ul class="service-cards">
+        {services.map((s, i) => (
+          <li data-theme={s.data.color}>
+            <a href={`/services/${s.id}/`}>
+              <Blob color="var(--paint)" variant={((i + 1) % 4) as 0 | 1 | 2 | 3} class="card-paint" />
+              <span class="status">{s.data.status}</span>
+              <h3>{s.data.name}</h3>
+              <p>{s.data.catch}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== 実績・お知らせ ===== -->
+  <section class="section">
+    <div class="wrap two-col">
+      <div>
+        <div class="section-title-row">
+          <h2 class="section-title">実績</h2>
+          <a class="text-link" href="/works/" style="color:var(--ink)">一覧</a>
+        </div>
+        <ul class="work-list">
+          {works.map((w) => (
+            <li><a href={`/works/${w.id}/`}><span class="work-cat">{w.data.category}</span><span class="work-title">{w.data.title}</span><span class="muted">{w.data.client}</span></a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <div class="section-title-row">
+          <h2 class="section-title">お知らせ</h2>
+          <a class="text-link" href="/news/" style="color:var(--ink)">一覧</a>
+        </div>
+        <ul class="news-mini">
+          {news.map((n) => (
+            <li><a href={`/news/${n.id}/`}><time datetime={n.data.date.toISOString()}>{fmt(n.data.date)}</time><span>{n.data.title}</span></a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 会社情報（信用の確認用） ===== -->
+  <section class="section-alt">
+    <div class="wrap company-brief">
+      <h2 class="section-title">会社情報</h2>
+      <dl class="data-table">
+        <div><dt>商号</dt><dd>{company.name}（{company.kana}）</dd></div>
+        <div><dt>代表者</dt><dd>{company.representative}</dd></div>
+        <div><dt>所在地</dt><dd>{company.postalCode ? `〒${company.postalCode} ` : ""}{company.address}</dd></div>
+        <div><dt>設立</dt><dd>{company.founded}</dd></div>
+      </dl>
+      <p style="margin-top:28px"><a class="text-link" href="/company/" style="color:var(--ink)">会社概要をすべて見る</a></p>
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<style>
+  .hero { padding: 72px 0 96px; overflow: hidden; }
+  .hero-inner { display: grid; grid-template-columns: 5fr 6fr; gap: 40px; align-items: center; }
+  .hero h1 { font-size: clamp(32px, 4.4vw, 54px); letter-spacing: 0.06em; line-height: 1.5; }
+  .hero-lead { margin-top: 28px; color: var(--sub); max-width: 30em; }
+
+  .palette { position: relative; aspect-ratio: 1 / 0.95; }
+  .spot { position: absolute; left: var(--x); top: var(--y); width: var(--s); text-decoration: none; display: block; }
+  :global(.spot-paint) { width: 100%; height: auto; transition: transform .3s cubic-bezier(.3,1.6,.6,1); }
+  .spot:hover :global(.spot-paint), .spot:focus-visible :global(.spot-paint) { transform: scale(1.06) rotate(-3deg); }
+  .spot-label { display: block; width: max-content; max-width: 14em; margin-top: 6px; font-weight: 700; font-size: 15px; line-height: 1.5; }
+  .spot-label small { display: block; font-size: 12px; font-weight: 500; color: var(--sub); }
+  @media (prefers-reduced-motion: no-preference) {
+    .spot { animation: drop .6s cubic-bezier(.3,1.5,.6,1) both; }
+    .spot:nth-child(2) { animation-delay: .15s; }
+    .spot:nth-child(3) { animation-delay: .3s; }
+    .spot:nth-child(4) { animation-delay: .45s; }
+  }
+  @keyframes drop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+
+  .business { display: grid; grid-template-columns: 4fr 8fr; gap: 48px; border-top: 4px solid var(--paint); padding-top: 40px; }
+  .chip { font-size: 13px; font-weight: 700; color: var(--deep); margin-bottom: 8px; }
+  .business-lead { font-size: 18px; line-height: 1.9; }
+  .facts { margin-top: 28px; border-top: 1px solid var(--rule); }
+  .facts div { display: grid; grid-template-columns: 7em 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: 15px; }
+  .facts dt { color: var(--deep); font-weight: 700; }
+  .row-links { margin-top: 32px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+
+  .service-cards { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .service-cards a {
+    position: relative; display: block; height: 100%;
+    padding: 32px 28px 28px; border-radius: 24px;
+    background: var(--canvas); text-decoration: none; overflow: hidden;
+    box-shadow: inset 0 0 0 1px var(--rule);
+    transition: box-shadow .2s, transform .2s;
+  }
+  .service-cards a:hover { box-shadow: inset 0 0 0 2px var(--paint); transform: translateY(-2px); }
+  :global(.card-paint) { position: absolute; right: -20px; top: -20px; width: 104px; }
+  .service-cards .status { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 99px; background: var(--soft); color: var(--deep); }
+  .service-cards h3 { margin-top: 40px; font-size: 20px; }
+  .service-cards p { margin-top: 8px; color: var(--sub); font-size: 15px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .two-col .section-title-row { margin-bottom: 20px; }
+  .work-list, .news-mini { list-style: none; padding: 0; border-top: 1px solid var(--rule); }
+  .work-list a, .news-mini a { display: grid; gap: 2px; padding: 18px 0; border-bottom: 1px solid var(--rule); text-decoration: none; }
+  .work-list a:hover .work-title, .news-mini a:hover span { text-decoration: underline; }
+  .work-cat { font-size: 12px; color: var(--blue-deep); font-weight: 700; }
+  .work-title { font-weight: 700; }
+  .work-list .muted { font-size: 14px; }
+  .news-mini a { grid-template-columns: 110px 1fr; gap: 16px; }
+  .news-mini time { color: var(--sub); font-size: 14px; font-variant-numeric: tabular-nums; }
+
+  .company-brief .data-table { max-width: 760px; }
+
+  @media (max-width: 880px) {
+    .hero { padding: 40px 0 56px; }
+    .hero-inner, .business, .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .palette { aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+    .spot { position: static; width: auto; }
+    .spot :global(.spot-paint) { width: 72%; }
+    .spot:first-child :global(.spot-paint) { width: 88%; }
+    .spot-label { font-size: 14px; width: auto; max-width: none; }
+    .news-mini a { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>

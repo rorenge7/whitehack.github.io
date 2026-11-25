@@ -1,0 +1,18 @@
+---
+// 絵の具をパレットに置いたような形。variant で形を変える
+interface Props {
+  color: string; // CSS の色（var(--blue) など）
+  variant?: 0 | 1 | 2 | 3;
+  class?: string;
+}
+const { color, variant = 0, class: cls } = Astro.props;
+const paths = [
+  "M52 6c22-4 41 9 44 31 3 19-6 33-20 45-15 13-37 16-53 5C8 76 1 58 6 40 11 21 31 10 52 6z",
+  "M47 4c20 0 40 10 47 29 7 20-1 41-19 52-18 12-44 13-59-1C2 72 1 50 8 33 15 15 28 4 47 4z",
+  "M55 8c18 3 35 16 38 35 3 18-9 37-26 45-20 10-46 7-58-10C-3 61 4 36 18 22 28 11 41 6 55 8z",
+  "M43 7c19-6 42 0 51 18 9 17 3 39-11 52-16 15-42 18-60 6C6 72 2 51 9 35 15 21 28 11 43 7z",
+];
+---
+<svg class={cls} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+  <path d={paths[variant]} fill={color} />
+</svg>

@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Blob from "../../components/Blob.astro";
+
+const services = (await getCollection("services", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="自社サービス" description="株式会社白白が運営する自社サービスの一覧です。" theme="orange" shape="round">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="kicker">サービスを使う方へ</p>
+      <h1>自社サービス</h1>
+      <p class="lead">白白が企画・開発・運営しているサービスです。それぞれのサービスに、それぞれの色があります。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="list">
+        {services.map((s, i) => (
+          <li data-theme={s.data.color}>
+            <a href={`/services/${s.id}/`}>
+              <Blob color="var(--paint)" variant={((i + 1) % 4) as 0 | 1 | 2 | 3} class="paint" />
+              <div>
+                <span class="status">{s.data.status}</span>
+                <h2>{s.data.name}</h2>
+                <p>{s.data.catch}</p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .list { list-style: none; padding: 0; display: grid; gap: 20px; }
+  .list a { display: grid; grid-template-columns: 120px 1fr; gap: 32px; align-items: center; padding: 32px; border-radius: 28px; background: var(--soft); text-decoration: none; transition: transform .2s; }
+  .list a:hover { transform: translateY(-2px); }
+  :global(.list .paint) { width: 120px; }
+  .status { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 99px; background: var(--canvas); color: var(--deep); }
+  .list h2 { font-size: 24px; margin-top: 8px; }
+  .list p { color: var(--sub); margin-top: 4px; }
+  @media (max-width: 640px) {
+    .list a { grid-template-columns: 1fr; gap: 16px; padding: 24px; }
+    :global(.list .paint) { width: 72px; }
+  }
+</style>
