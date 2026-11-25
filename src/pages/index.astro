@@ -9,7 +9,7 @@ import { company, contractServices, contractLead, servicesComingSoon } from "../
 
 const services = (await getCollection("services", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
 const news = (await getCollection("news", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
-const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order || +b.data.date - +a.data.date).slice(0, 3);
+const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
 const fmt = (d: Date) => d.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", ".");
 const crayonColor = { orange: "var(--crayon-orange)", red: "var(--crayon-red)", yellow: "var(--crayon-yellow)", blue: "var(--pencil)" } as const;
 
@@ -103,7 +103,7 @@ const contract = contractServices;
             {works.map((w, i) => (
               <li>
                 <PencilRule strength={2} seed={120 + i} />
-                <a href={`/works/${w.id}/`}><span class="cat">{w.data.category}</span><span class="ttl">{w.data.title}</span><span class="muted sm">{w.data.client ?? w.data.category}</span></a>
+                <a href={`/works/#${w.id}`}><span class="cat">{w.data.client}</span><span class="ttl">{w.data.title}</span><span class="muted sm">{w.data.result}</span></a>
               </li>
             ))}
           </ul>

@@ -5,10 +5,10 @@ export const company = {
   en: "Shirashiro Inc.",
   representative: "石川 諒人",
   founded: "2026年1月",
-  postalCode: "", // 例：160-0022
-  address: "東京都新宿区", // 番地まで
-  capital: "", // 例：100万円
-  corporateNumber: "", // 13桁
+  postalCode: "160-0023",
+  address: "東京都新宿区西新宿", // バーチャルオフィスのため番地以降は非掲載（問い合わせがあれば回答）
+  capital: "100万円",
+  corporateNumber: "3011101114585",
   title: "代表取締役",
   business: [
     "Webアプリケーション・業務システムの受託開発",
@@ -42,21 +42,10 @@ export const contractServices = [
 export const contractLead =
   "Webアプリケーションから、クラウド・インフラまで。システム全体を見渡しながら、要件の整理・技術選定・設計・開発・運用まで一貫してお引き受けします。仕様が固まっていない段階からのご相談も歓迎です。";
 
-// 代表プロフィール
+// 代表プロフィール（会社サイトなので短く）
 export const profile = {
-  summary: "Webアプリケーション開発からクラウド・インフラまで、システム全体を見渡して課題を解決するエンジニア。",
-  history: [
-    "2018年、株式会社RITでReact／Ruby on Railsを用いたWebアプリケーション開発に従事。マッチングサービスなど複数のサービス開発や、AWS上の基盤の移行、全文検索の導入を担当。同年からフリーランスとして、Webサービス・ECサイト・業務システムの開発を始める。",
-    "2020年、株式会社NTTデータに入社。大規模な仮想デスクトップ基盤の設計・構築と技術リードを担当し、約2万台規模のデスクトップ展開の自動化や、性能の可視化・チューニングに取り組む。",
-    "2026年1月、株式会社白白を設立。28のECサイトを展開する共通プラットフォームや一般社団法人で技術責任者を務めながら、受託開発と自社サービスの開発を行う。",
-  ],
-  qualifications: [
-    "情報処理安全確保支援士試験、ネットワークスペシャリスト試験、応用情報技術者試験 合格",
-    "Google Cloud 認定資格 12種（Professional Cloud Architect ほか）",
-    "AWS Certified Solutions Architect – Associate",
-    "Microsoft 認定資格 4種（Azure Administrator Associate ほか）",
-  ],
-  skills: "TypeScript／React／Next.js／Ruby on Rails／Python／PostgreSQL／Google Cloud／AWS／Cloudflare",
+  summary: "Webアプリからクラウド・インフラまで、システム全体を見渡して課題を解決するエンジニア。株式会社NTTデータで大規模システムの設計・構築に携わったのち、2026年に株式会社白白を設立。フリーランス時代を含め、2018年からお客様の困りごとに合わせたシステムをつくり続けています。",
+  qualifications: "情報処理安全確保支援士試験・ネットワークスペシャリスト試験 合格、Google Cloud 認定資格 12種 ほか",
 };
 
 // 自社サービスが公開されるまでの案内
