@@ -1,7 +1,6 @@
 ---
 title: 営業支援システムの表示速度改善
 category: 性能改善
-period: 2022年1月〜3月
 team: 全2名（リーダー）
 stack: [React, Ruby on Rails, MySQL]
 date: 2022-01-01

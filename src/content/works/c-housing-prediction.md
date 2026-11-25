@@ -2,7 +2,6 @@
 title: 住宅メーカー向け 長期売れ残り物件の早期予測
 client: 住宅メーカー
 category: AI・データ活用
-period: 2026年1月〜5月
 team: 全2名（技術担当）
 stack: [Python, scikit-learn, Google Maps Platform, MCP, Docker]
 date: 2026-01-01

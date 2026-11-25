@@ -2,7 +2,6 @@
 title: 一般社団法人の技術責任者（Web・社内システム・データ活用）
 client: 一般社団法人
 category: 技術顧問・業務システム
-period: 2022年4月〜
 team: 全3名（技術責任者）
 stack: [WordPress, Next.js, Google Apps Script, Python, scikit-learn]
 date: 2022-04-01

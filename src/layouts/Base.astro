@@ -10,12 +10,12 @@ interface Props {
 }
 const {
   title,
-  description = "株式会社白白（しらしろ）は、企業向けの受託開発と、暮らしに寄りそう自社サービスを運営する会社です。",
+  description = "あなたの色で、描きます。株式会社白白（しらしろ）は、お客様の困りごとを起点に、事業の色に合わせて仕組みを描き、形にしてきた会社です。",
   theme = "ink",
   shape = "square",
 } = Astro.props;
 
-const pageTitle = title ? `${title}｜${company.name}` : `${company.name}（${company.kana}）`;
+const pageTitle = title ? `${title}｜${company.name}` : `${company.name}（${company.kana}）｜あなたの色で、描きます。`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const path = Astro.url.pathname;
 ---

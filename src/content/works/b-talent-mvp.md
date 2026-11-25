@@ -2,7 +2,6 @@
 title: 人材紹介会社向け 候補者紹介システムのMVP開発
 client: 人材紹介業
 category: 新規事業・MVP
-period: 2026年7月〜
 team: 単独（要件定義からリリースまで）
 stack: [Next.js, React, TypeScript]
 date: 2026-07-01

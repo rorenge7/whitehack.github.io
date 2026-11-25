@@ -2,7 +2,6 @@
 title: キャリア育成を支える会員プラットフォーム（開発中）
 client: 一般社団法人
 category: Webアプリ開発
-period: 開発中
 stack: [Next.js, NestJS, Cloud Run, Prisma, PostgreSQL]
 date: 2026-11-01
 order: 7

@@ -2,7 +2,6 @@
 title: 28のECサイトを支える共通ECプラットフォームの開発・運用
 client: EC事業者
 category: Webアプリ開発・技術顧問
-period: 2024年12月〜（2025年7月から技術責任者）
 team: 全3名
 stack: [Next.js, Ruby on Rails, TypeScript, PostgreSQL, Google Cloud]
 date: 2024-12-01
