@@ -20,8 +20,8 @@ const id = `pf-${seed}-${strength}`;
       </filter>
     </defs>
     <g filter={`url(#${id})`} fill="none" stroke="var(--line)" stroke-linecap="round" vector-effect="non-scaling-stroke">
-      <path d={wobblyRect(200, 100, 0, seed)} stroke-width="2.2" vector-effect="non-scaling-stroke" opacity=".9" />
-      <path d={wobblyRect(200, 100, 0, seed + 10, 2.4)} stroke-width=".9" vector-effect="non-scaling-stroke" opacity=".35" />
+      <path d={wobblyRect(200, 100, 0, seed, 0)} stroke-width="2.2" vector-effect="non-scaling-stroke" opacity=".9" />
+      <path d={wobblyRect(200, 100, 0, seed + 10, 0.8)} stroke-width=".9" vector-effect="non-scaling-stroke" opacity=".35" />
     </g>
   </svg>
   {marks && ["tl", "tr", "bl", "br"].map((p) => (
@@ -34,7 +34,7 @@ const id = `pf-${seed}-${strength}`;
   .pencil-box { position: relative; padding: 32px 32px 28px; }
   .frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .mark { position: absolute; width: 18px; height: 18px; }
-  .tl { left: -6px; top: -6px; } .tr { right: -6px; top: -6px; }
-  .bl { left: -6px; bottom: -6px; } .br { right: -6px; bottom: -6px; }
+  .tl { left: -9px; top: -9px; } .tr { right: -9px; top: -9px; }
+  .bl { left: -9px; bottom: -9px; } .br { right: -9px; bottom: -9px; }
   .pencil-body { position: relative; }
 </style>
