@@ -22,13 +22,16 @@ export const company = {
   contactUrl: "https://forms.gle/vDB75tQYHF2QjeFt7",
 };
 
+// お知らせを再開するときは true にし、src/pages/_news を src/pages/news に戻す
+export const showNews = false;
+
 export const nav = [
   { href: "/contract/", label: "受託開発" },
   { href: "/services/", label: "自社サービス" },
   { href: "/works/", label: "実績" },
   { href: "/news/", label: "お知らせ" },
   { href: "/company/", label: "会社概要" },
-];
+].filter((n) => showNews || n.href !== "/news/");
 
 // 受託開発で対応できること（トップ・受託開発ページで共通）
 export const contractServices = [

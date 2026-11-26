@@ -192,3 +192,7 @@ body { background: var(--paper-warm); }
 .gnav-contact-wrap { margin-left: 10px; display: inline-flex; }
 .gnav .gnav-contact-wrap a, .gnav .gnav-contact-wrap a:hover { color: #fff; background: none; border: none; }
 @media (max-width: 880px) { .gnav-contact-wrap { margin: 12px 0 0; } .gnav .gnav-contact-wrap a { padding: 10px 18px; text-align: center; width: 100%; } }
+
+/* 鉛筆のページの本文見出し（自社サービス詳細はクレヨン側で上書き） */
+.sketch-page:not(.crayon-page) .prose h2 { border-left: 0; padding: 0 0 8px; font-family: var(--font-pencil-head); font-weight: 400; letter-spacing: 0.04em; border-bottom: 1.5px solid rgba(59, 111, 209, .45); }
+.sketch-page:not(.crayon-page) .prose h3 { font-family: var(--font-pencil-head); font-weight: 400; }

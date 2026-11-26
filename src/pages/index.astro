@@ -6,7 +6,7 @@ import PencilBox from "../components/sketch/PencilBox.astro";
 import PencilRule from "../components/sketch/PencilRule.astro";
 import Crayon from "../components/sketch/Crayon.astro";
 import PencilButton from "../components/sketch/PencilButton.astro";
-import { company, contractServices, contractLead, servicesComingSoon } from "../site";
+import { company, contractServices, contractLead, servicesComingSoon, showNews } from "../site";
 
 const services = (await getCollection("services", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
 const news = (await getCollection("news", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
@@ -95,10 +95,10 @@ const contract = contractServices;
       </div>
     </section>
 
-    <!-- ===== 実績・お知らせ（鉛筆の罫線） ===== -->
+    <!-- ===== 実績・お知らせ（鉛筆の罫線）。お知らせは showNews で表示 ===== -->
     <section class="block">
-      <div class="wrap two-col">
-        <div>
+      <div class:list={["wrap", { "two-col": showNews }]}>
+        <div style={showNews ? undefined : "max-width:920px"}>
           <h2 class="pencil-font small-title">実績</h2>
           <ul class="ruled">
             {works.map((w, i) => (
@@ -110,7 +110,7 @@ const contract = contractServices;
           </ul>
           <p class="more"><a class="link-pencil" href="/works/">実績一覧</a></p>
         </div>
-        <div>
+        {showNews && <div>
           <h2 class="pencil-font small-title">お知らせ</h2>
           <ul class="ruled">
             {news.map((n, i) => (
@@ -121,7 +121,7 @@ const contract = contractServices;
             ))}
           </ul>
           <p class="more"><a class="link-pencil" href="/news/">お知らせ一覧</a></p>
-        </div>
+        </div>}
       </div>
     </section>
 

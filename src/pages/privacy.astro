@@ -1,10 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
+import SketchHead from "../components/sketch/SketchHead.astro";
 ---
 <Base title="プライバシーポリシー" description="株式会社白白の個人情報の取り扱いについて。">
-  <section class="page-head"><div class="wrap"><h1>プライバシーポリシー</h1></div></section>
-  <section class="section">
-    <div class="narrow prose">
+  <div class="sketch-page">
+  <SketchHead title="プライバシーポリシー" />
+  <section class="block" style="padding-top:40px">
+    <div class="wrap"><div class="prose" style="max-width:760px;line-height:2">
       <p>
         株式会社白白（以下「当社」）は、お客様の個人情報を適切に取り扱うことを社会的責務と考え、
         個人情報の保護に関する法律その他の関係法令を遵守し、以下のとおり個人情報を取り扱います。
@@ -69,6 +71,7 @@ import Base from "../layouts/Base.astro";
       </p>
 
       <p class="muted" style="margin-top:48px">制定日：<span class="todo">【要記入】公開日</span></p>
-    </div>
+    </div></div>
   </section>
+  </div>
 </Base>

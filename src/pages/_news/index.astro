@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import SketchHead from "../../components/sketch/SketchHead.astro";
+import PencilRule from "../../components/sketch/PencilRule.astro";
+
+const news = (await getCollection("news", ({ data }) => data.published)).sort((a, b) => +b.data.date - +a.data.date);
+const fmt = (d: Date) => d.toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" }).replaceAll("/", ".");
+---
+<Base title="お知らせ" description="株式会社白白からのお知らせ・ブログ。">
+  <div class="sketch-page">
+    <SketchHead title="お知らせ" lead="白白からのお知らせや、取り組みの紹介です。" />
+    <section class="block" style="padding-top:40px">
+      <div class="wrap"><div style="max-width:920px">
+        <ul class="ruled">
+          {news.map((n, i) => (
+            <li>
+              <PencilRule strength={2} seed={300 + i} />
+              <a href={`/news/${n.id}/`}>
+                <time datetime={n.data.date.toISOString()}>{fmt(n.data.date)}</time>
+                <span class="tag">{n.data.category}</span>
+                <span class="ttl">{n.data.title}</span>
+              </a>
+            </li>
+          ))}
+          <li><PencilRule strength={2} seed={399} /></li>
+        </ul>
+        {news.length === 0 && <p class="empty">お知らせはまだありません。</p>}
+      </div></div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .ruled { list-style: none; padding: 0; }
+  .ruled :global(.pencil-rule) { margin: 0; }
+  .ruled a { display: grid; grid-template-columns: 110px 7em 1fr; gap: 16px; align-items: baseline; padding: 22px 0; text-decoration: none; color: inherit; }
+  .ruled a:hover .ttl { text-decoration: underline; text-decoration-color: var(--pencil); }
+  time { color: var(--sub); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .tag { font-size: 12px; color: var(--pencil); border: 1px solid rgba(59, 111, 209, .5); padding: 1px 10px; justify-self: start; }
+  .ttl { font-size: 16px; }
+  .empty { color: var(--sub); }
+  @media (max-width: 640px) { .ruled a { grid-template-columns: auto auto 1fr; } .ttl { grid-column: 1 / -1; } }
+</style>

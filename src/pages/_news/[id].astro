@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PencilRule from "../../components/sketch/PencilRule.astro";
+
+export async function getStaticPaths() {
+  const news = await getCollection("news", ({ data }) => data.published);
+  return news.map((n) => ({ params: { id: n.id }, props: { post: n } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const date = d.date.toLocaleDateString("ja-JP", { year: "numeric", month: "long", day: "numeric" });
+---
+<Base title={d.title}>
+  <div class="sketch-page">
+    <article class="block" style="padding-top:56px">
+      <div class="wrap"><div class="col">
+        <p class="back"><a href="/news/">お知らせ</a></p>
+        <p class="meta"><time datetime={d.date.toISOString()}>{date}</time><span class="tag">{d.category}</span></p>
+        <h1 class="pencil-font">{d.title}</h1>
+        <PencilRule strength={2} seed={311} />
+        <div class="prose"><Content /></div>
+        <p class="more"><a class="link-pencil" href="/news/">お知らせ一覧へ戻る</a></p>
+      </div></div>
+    </article>
+  </div>
+</Base>
+
+<style>
+  .col { max-width: 720px; }
+  .back a { font-size: 14px; color: var(--sub); text-decoration: none; }
+  .back a::before { content: "‹ "; }
+  .meta { margin-top: 24px; display: flex; gap: 14px; align-items: center; color: var(--sub); font-size: 14px; }
+  .tag { font-size: 12px; color: var(--pencil); border: 1px solid rgba(59, 111, 209, .5); padding: 1px 10px; }
+  h1 { font-size: clamp(26px, 3.4vw, 36px); margin-top: 10px; letter-spacing: 0.04em; line-height: 1.5; }
+  .col :global(.pencil-rule) { margin: 20px 0 40px; }
+  .prose { line-height: 2.05; }
+  .more { margin-top: 64px; }
+</style>

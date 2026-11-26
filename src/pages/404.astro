@@ -1,12 +1,13 @@
 ---
 import Base from "../layouts/Base.astro";
+import SketchHead from "../components/sketch/SketchHead.astro";
+import PencilButton from "../components/sketch/PencilButton.astro";
 ---
 <Base title="ページが見つかりません">
-  <section class="section">
-    <div class="narrow">
-      <h1 style="font-size:32px">このページは見つかりません</h1>
-      <p class="muted" style="margin-top:16px">URLが変わったか、ページが削除された可能性があります。</p>
-      <p style="margin-top:32px"><a class="btn" href="/">トップページへ</a></p>
-    </div>
-  </section>
+  <div class="sketch-page">
+    <SketchHead title="このページは見つかりません" lead="URLが変わったか、ページが削除された可能性があります。" />
+    <section class="block" style="padding-top:32px">
+      <div class="wrap"><PencilButton href="/">トップページへ</PencilButton></div>
+    </section>
+  </div>
 </Base>
