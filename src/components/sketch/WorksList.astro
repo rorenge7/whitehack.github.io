@@ -1,0 +1,35 @@
+---
+// 実績の一覧（困りごと・解消方法・結果）。鉛筆の罫線で区切る
+import { getCollection } from "astro:content";
+import PencilRule from "./PencilRule.astro";
+const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
+---
+<ul class="works-list">
+  {works.map((w, i) => (
+    <li id={w.id}>
+      <PencilRule strength={2} seed={200 + i} />
+      <div class="work">
+        {w.data.client && <p class="client">{w.data.client}</p>}
+        <h3 class="pencil-font">{w.data.title}</h3>
+        <dl>
+          <div><dt>困りごと</dt><dd>{w.data.problem}</dd></div>
+          <div><dt>解消方法</dt><dd>{w.data.solution}</dd></div>
+          <div><dt>結果</dt><dd>{w.data.result}</dd></div>
+        </dl>
+      </div>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .works-list { list-style: none; padding: 0; }
+  .works-list li { scroll-margin-top: 90px; }
+  .works-list :global(.pencil-rule) { margin: 0; }
+  .work { padding: 28px 0 32px; }
+  .client { font-size: 13px; font-weight: 700; color: var(--pencil); }
+  h3 { font-size: 23px; margin: 2px 0 16px; letter-spacing: 0.03em; }
+  dl div { display: grid; grid-template-columns: 6em 1fr; gap: 16px; padding: 5px 0; }
+  dt { color: var(--pencil); font-size: 14px; font-weight: 700; }
+  dd { font-size: 15px; color: #3d4148; }
+  @media (max-width: 640px) { dl div { grid-template-columns: 1fr; gap: 0; } }
+</style>

@@ -1,16 +1,15 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import SketchHead from "../components/sketch/SketchHead.astro";
 import SketchCta from "../components/sketch/SketchCta.astro";
 import PencilBox from "../components/sketch/PencilBox.astro";
 import PencilRule from "../components/sketch/PencilRule.astro";
-import { company, contractServices, contractLead, profile } from "../site";
+import WorksList from "../components/sketch/WorksList.astro";
+import { contractServices, contractLead } from "../site";
 
-const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
 
 const steps = [
-  { title: "ヒアリング", text: "課題、実現したいこと、予算と時期の感触を伺います。" },
+  { title: "やりたいことを一緒に見つける", text: "困っていること、変えたいことを伺いながら、本当に必要なものを一緒に整理します。まだ形になっていないアイデアでも構いません。" },
   { title: "ご提案・お見積り", text: "開発範囲と進め方を整理し、作業ごとの内訳つきで見積りをお出しします。" },
   { title: "設計", text: "画面・データ・機能を仕様書にまとめ、合意してから開発に入ります。" },
   { title: "開発・テスト", text: "途中段階でも動く画面でご確認いただきながら進めます。" },
@@ -61,44 +60,15 @@ const steps = [
       </div>
     </section>
 
-    <!-- 担当者 -->
-    <section class="block">
-      <div class="wrap person">
-        <div>
-          <h2 class="pencil-font block-title">担当者</h2>
-          <p class="name pencil-font">{company.representative}</p>
-          <p class="muted">{company.title}</p>
-        </div>
-        <div>
-          <p class="person-lead">ご相談の窓口から設計・開発まで、代表が直接担当します。伝えた内容がそのまま形になり、判断も速く進みます。</p>
-          <PencilRule strength={2} seed={77} />
-          <p>{profile.summary}</p>
-          <p class="muted quals">主な資格：{profile.qualifications}</p>
-        </div>
-      </div>
-    </section>
 
     <!-- 実績 -->
-    {works.length > 0 && (
-      <section class="block block-tint">
-        <div class="wrap">
-          <h2 class="pencil-font block-title">実績</h2>
-          <ul class="ruled">
-            {works.map((w, i) => (
-              <li>
-                <PencilRule strength={2} seed={120 + i} />
-                <a href={`/works/#${w.id}`}>
-                  <span class="cat">{w.data.client}</span>
-                  <span class="ttl">{w.data.title}</span>
-                  <span class="muted sm">{w.data.result}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p class="more"><a class="link-pencil" href="/works/">実績一覧</a></p>
-        </div>
-      </section>
-    )}
+    <section class="block">
+      <div class="wrap"><div class="narrow-works">
+        <h2 class="pencil-font block-title">実績</h2>
+        <p class="works-lead">お客様の困りごとを起点に取り組んできた開発の一部です。お客様の名称は業種のみ記載しています。</p>
+        <WorksList />
+      </div></div>
+    </section>
 
     <SketchCta title="開発のご相談" text="仕様が固まっていない段階でも構いません。分かる範囲でお知らせください。" />
   </div>
@@ -129,17 +99,9 @@ const steps = [
   .steps p { margin-top: 6px; font-size: 14px; color: var(--sub); line-height: 1.85; }
   .steps-note { margin-top: 32px; color: var(--sub); font-size: 15px; }
 
-  .person { display: grid; grid-template-columns: 4fr 8fr; gap: 56px; }
-  .person .block-title { margin-bottom: 16px; }
-  .name { font-size: 30px; letter-spacing: 0.14em; }
-  .person-lead { font-size: 19px; line-height: 1.9; }
-  .person :global(.pencil-rule) { margin: 22px 0; }
-  .quals { margin-top: 14px; font-size: 14px; }
 
-  .ruled { list-style: none; padding: 0; max-width: 860px; }
-  .ruled :global(.pencil-rule) { margin: 0; }
-  .ruled a { display: grid; gap: 2px; padding: 16px 0; text-decoration: none; }
-  .ruled a:hover .ttl { text-decoration: underline; }
+  .narrow-works { max-width: 920px; }
+  .works-lead { color: var(--sub); margin: -16px 0 24px; }
   .cat { font-size: 12px; font-weight: 700; color: var(--pencil); }
   .ttl { font-weight: 700; }
 
@@ -150,7 +112,6 @@ const steps = [
     .steps .step-n { grid-row: span 2; margin: 0; }
   }
   @media (max-width: 880px) {
-    .svc, .person { grid-template-columns: 1fr; gap: 8px; }
-    .person { gap: 24px; }
+    .svc { grid-template-columns: 1fr; gap: 8px; }
   }
 </style>

@@ -32,7 +32,7 @@ export const nav = [
 
 // 受託開発で対応できること（トップ・受託開発ページで共通）
 export const contractServices = [
-  { title: "Webアプリ・業務システム開発", text: "フロントエンドからAPI、データベース、インフラまで一貫して設計・開発します。", note: "TypeScript／React／Next.js／Ruby on Rails／PostgreSQL" },
+  { title: "Webアプリ・業務システム開発", text: "フロントエンドからAPI、データベース、インフラまで一貫して設計・開発します。", note: "TypeScript／React／Next.js／Ruby on Rails／PostgreSQL など" },
   { title: "新規事業・MVPの立ち上げ", text: "要件が固まり切っていない段階から、検証に必要な機能を見極めて、小さく早く形にします。" },
   { title: "技術顧問", text: "技術方針の策定、技術選定、設計・コードのレビューなど、開発に関わる判断を技術者の立場から支えます。不具合や表示の遅さといった問題の原因調査にも対応します。" },
   { title: "クラウド・インフラ構築", text: "Google Cloud／AWS／Cloudflareで、運用まで見据えた構成を設計・構築します。" },

@@ -1,45 +1,17 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import Cta from "../../components/Cta.astro";
-
-const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
+import SketchHead from "../../components/sketch/SketchHead.astro";
+import SketchCta from "../../components/sketch/SketchCta.astro";
+import WorksList from "../../components/sketch/WorksList.astro";
 ---
-<Base title="実績" description="株式会社白白の受託開発の実績・制作事例です。" theme="blue" shape="square">
-  <section class="page-head">
-    <div class="wrap">
-      <p class="kicker">受託開発</p>
-      <h1>実績</h1>
-      <p class="lead">お客様の困りごとを起点に取り組んできた開発の一部です。お客様の名称は業種のみ記載しています。</p>
-    </div>
-  </section>
-  <section class="section">
-    <div class="wrap">
-      <ul class="works">
-        {works.map((w) => (
-          <li id={w.id}>
-            {w.data.client && <span class="cat">{w.data.client}</span>}
-            <h2>{w.data.title}</h2>
-            <dl class="psr">
-              <div><dt>困りごと</dt><dd>{w.data.problem}</dd></div>
-              <div><dt>解消方法</dt><dd>{w.data.solution}</dd></div>
-              <div><dt>結果</dt><dd>{w.data.result}</dd></div>
-            </dl>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-  <Cta title="開発のご相談" text="似た課題をお持ちでしたら、お気軽にご相談ください。" />
+<Base title="実績" description="株式会社白白の実績。お客様の困りごとを起点に取り組んできた開発の一部です。">
+  <div class="sketch-page">
+    <SketchHead kicker="受託開発" title="実績" lead="お客様の困りごとを起点に取り組んできた開発の一部です。お客様の名称は業種のみ記載しています。" />
+    <section class="block" style="padding-top:40px">
+      <div class="wrap"><div style="max-width:920px">
+        <WorksList />
+      </div></div>
+    </section>
+    <SketchCta title="開発のご相談" text="似た困りごとをお持ちでしたら、お気軽にご相談ください。" />
+  </div>
 </Base>
-
-<style>
-  .works { list-style: none; padding: 0; border-top: 2px solid var(--deep); }
-  .works > li { padding: 36px 0; border-bottom: 1px solid var(--rule); scroll-margin-top: 90px; }
-  .cat { font-size: 13px; font-weight: 700; color: var(--deep); }
-  .works h2 { font-size: 22px; margin: 4px 0 16px; }
-  .psr div { display: grid; grid-template-columns: 6em 1fr; gap: 16px; padding: 6px 0; }
-  .psr dt { color: var(--deep); font-weight: 700; font-size: 14px; }
-  .psr dd { font-size: 15px; }
-  @media (max-width: 640px) { .psr div { grid-template-columns: 1fr; gap: 0; } }
-</style>

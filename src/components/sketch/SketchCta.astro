@@ -1,6 +1,7 @@
 ---
 // お問い合わせへの誘導（色鉛筆の枠）
 import PencilBox from "./PencilBox.astro";
+import PencilButton from "./PencilButton.astro";
 interface Props { title?: string; text?: string; }
 const {
   title = "ご相談・お問い合わせ",
@@ -15,7 +16,7 @@ const {
           <h2 class="pencil-font">{title}</h2>
           <p>{text}</p>
         </div>
-        <a class="btn-ink" href="/contact/">お問い合わせへ</a>
+        <PencilButton href="/contact/" variant="marks">お問い合わせへ</PencilButton>
       </div>
     </PencilBox>
   </div>

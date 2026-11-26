@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { company, nav } from "../site";
+import PencilButton from "../components/sketch/PencilButton.astro";
 
 interface Props {
   title?: string;
@@ -64,7 +65,7 @@ const path = Astro.url.pathname;
         {nav.map((n) => (
           <a href={n.href} aria-current={path.startsWith(n.href) ? "page" : undefined}>{n.label}</a>
         ))}
-        <a class="gnav-contact" href="/contact/">お問い合わせ</a>
+        <span class="gnav-contact-wrap"><PencilButton href="/contact/" variant="fill" small>お問い合わせ</PencilButton></span>
       </nav>
     </div>
   </header>

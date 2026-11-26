@@ -188,3 +188,7 @@ body { background: var(--paper-warm); }
 .btn-ink:hover { background: var(--pencil); }
 .sketch-page { font-family: var(--font-pencil); }
 @media (max-width: 880px) { .block { padding: 72px 0; } }
+
+.gnav-contact-wrap { margin-left: 10px; display: inline-flex; }
+.gnav .gnav-contact-wrap a, .gnav .gnav-contact-wrap a:hover { color: #fff; background: none; border: none; }
+@media (max-width: 880px) { .gnav-contact-wrap { margin: 12px 0 0; } .gnav .gnav-contact-wrap a { padding: 10px 18px; text-align: center; width: 100%; } }

@@ -1,0 +1,46 @@
+---
+// 鉛筆で描いたボタン。variant: "marks"（線＋合わせの十字）/ "outline"（線のみ）/ "fill"（青鉛筆で塗る）
+interface Props { href: string; variant?: "marks" | "outline" | "fill"; small?: boolean; }
+const { href, variant = "marks", small = false } = Astro.props;
+const id = `pb-${variant}-${small ? "s" : "l"}`;
+---
+<a class:list={["pencil-btn", variant, { small }]} href={href}>
+  <svg class="pb-bg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <filter id={id} x="-2%" y="-10%" width="104%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="1.1 1.4" numOctaves="1" seed="5" result="g" />
+        <feColorMatrix in="g" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -2.4 0.8" result="m" />
+        <feComposite in="SourceGraphic" in2="m" operator="out" />
+      </filter>
+    </defs>
+    {variant === "fill"
+      ? <rect x="0" y="0" width="200" height="50" fill="var(--pencil)" filter={`url(#${id})`} />
+      : <rect x="1" y="1" width="198" height="48" fill="none" stroke="var(--pencil)" stroke-width="2.2" vector-effect="non-scaling-stroke" filter={`url(#${id})`} />}
+  </svg>
+  {variant === "marks" && (
+    <>
+      <svg class="mk tl" viewBox="0 0 12 12" aria-hidden="true"><path d="M0 6H12M6 0V12" stroke="var(--pencil)" stroke-width="1.3" /></svg>
+      <svg class="mk br" viewBox="0 0 12 12" aria-hidden="true"><path d="M0 6H12M6 0V12" stroke="var(--pencil)" stroke-width="1.3" /></svg>
+    </>
+  )}
+  <span><slot /></span>
+</a>
+
+<style>
+  .pencil-btn {
+    position: relative; display: inline-block;
+    padding: 14px 30px;
+    font-family: var(--font-pencil); font-weight: 600; font-size: 15px;
+    color: var(--pencil); text-decoration: none; white-space: nowrap;
+    transition: background .15s;
+  }
+  .pencil-btn.small { padding: 8px 18px; font-size: 14px; }
+  .pencil-btn.fill { color: #fff; }
+  .pencil-btn:not(.fill):hover { background: rgba(59, 111, 209, 0.07); }
+  .pencil-btn.fill:hover { filter: brightness(1.08); }
+  .pb-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .mk { position: absolute; width: 12px; height: 12px; }
+  .tl { left: -6px; top: -6px; }
+  .br { right: -6px; bottom: -6px; }
+  span { position: relative; }
+</style>

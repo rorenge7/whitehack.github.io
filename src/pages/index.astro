@@ -5,6 +5,7 @@ import HeroSketch from "../components/sketch/HeroSketch.astro";
 import PencilBox from "../components/sketch/PencilBox.astro";
 import PencilRule from "../components/sketch/PencilRule.astro";
 import Crayon from "../components/sketch/Crayon.astro";
+import PencilButton from "../components/sketch/PencilButton.astro";
 import { company, contractServices, contractLead, servicesComingSoon } from "../site";
 
 const services = (await getCollection("services", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
@@ -154,7 +155,7 @@ const contract = contractServices;
               <h2 class="pencil-font">ご相談・お問い合わせ</h2>
               <p class="muted">開発のご依頼、サービスについてのご質問、お取引のご相談などを受け付けています。</p>
             </div>
-            <a class="btn-ink" href="/contact/">お問い合わせへ</a>
+            <PencilButton href="/contact/" variant="marks">お問い合わせへ</PencilButton>
           </div>
         </PencilBox>
       </div>
