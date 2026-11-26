@@ -1,8 +1,10 @@
 ---
 // 鉛筆で描いたボタン。variant: "marks"（線＋合わせの十字）/ "outline"（線のみ）/ "fill"（青鉛筆で塗る）
+import { pencilFill } from "../../lib/sketch";
 interface Props { href: string; variant?: "marks" | "outline" | "fill"; small?: boolean; external?: boolean; }
 const { href, variant = "marks", small = false, external = false } = Astro.props;
 const id = `pb-${variant}-${small ? "s" : "l"}`;
+const fill = pencilFill(200, 50, small ? 17 : 23); // 塗りボタン用の色鉛筆の塗り
 ---
 <a class:list={["pencil-btn", variant, { small }]} href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>
   <svg class="pb-bg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-hidden="true">
@@ -14,7 +16,12 @@ const id = `pb-${variant}-${small ? "s" : "l"}`;
       </filter>
     </defs>
     {variant === "fill"
-      ? <rect x="0" y="0" width="200" height="50" fill="var(--pencil)" filter={`url(#${id})`} />
+      ? <g filter={`url(#${id})`}>
+          <path d={fill.base} fill="var(--pencil)" opacity=".86" />
+          <g fill="none" stroke="#2a55ad" stroke-linecap="round">
+            {fill.strokes.map((st) => <path d={st.d} stroke-width={st.w} opacity={st.o} vector-effect="non-scaling-stroke" />)}
+          </g>
+        </g>
       : <rect x="1" y="1" width="198" height="48" fill="none" stroke="var(--pencil)" stroke-width="2.2" vector-effect="non-scaling-stroke" filter={`url(#${id})`} />}
   </svg>
   {variant === "marks" && (
@@ -35,10 +42,10 @@ const id = `pb-${variant}-${small ? "s" : "l"}`;
     transition: background .15s;
   }
   .pencil-btn.small { padding: 8px 18px; font-size: 14px; }
-  .pencil-btn.fill { color: #fff; }
+  .pencil-btn.fill { color: #fff; font-weight: 700; -webkit-text-stroke: 0.5px #fff; text-shadow: 0 0 3px rgba(20, 45, 110, .8), 0 0 1px rgba(20, 45, 110, .8); }
   .pencil-btn:not(.fill):hover { background: rgba(59, 111, 209, 0.07); }
   .pencil-btn.fill:hover { filter: brightness(1.08); }
-  .pb-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .pb-bg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .mk { position: absolute; width: 12px; height: 12px; }
   .tl { left: -6px; top: -6px; }
   .br { right: -6px; bottom: -6px; }
