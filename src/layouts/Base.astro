@@ -85,7 +85,7 @@ const path = Astro.url.pathname;
       <nav class="footer-nav" aria-label="フッターメニュー">
         {nav.map((n) => <a href={n.href}>{n.label}</a>)}
         <a href="/contact/">お問い合わせ</a>
-        <a href="/privacy/">プライバシーポリシー</a>
+        <!-- プライバシーポリシーは内容を詰めるまで非公開（src/pages/_privacy.astro を privacy.astro に戻し、このリンクを復活） -->
       </nav>
       <p class="copyright">© 2026 {company.en}</p>
     </div>
