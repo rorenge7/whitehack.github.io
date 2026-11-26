@@ -6,4 +6,5 @@ solution: Slackに届く入会フォームの回答を自動で読み取り、�
 result: 担当者が一人ひとりの回答や実績を調べる時間が減り、要点をつかんだうえで、入会者の目指すことや悩みにまで踏み込んだ対話ができるように。運用しながら判定基準と精度を継続的に改善している
 order: 4
 featured: true
+illust: /illust/ai-screening.svg
 ---

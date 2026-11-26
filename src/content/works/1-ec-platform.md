@@ -6,4 +6,5 @@ solution: Next.js／Ruby on Rails／Google Cloudで構成された基盤の機�
 result: 新しいサイトを立ち上げるたびに一から作る必要がなく、少人数のチームで30以上のサイトを運営し続けられている
 order: 1
 featured: true
+illust: /illust/ec-platform.svg
 ---

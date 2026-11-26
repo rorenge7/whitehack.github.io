@@ -1,37 +1,82 @@
 ---
-// 実績の一覧（困りごと・解消方法・結果）。鉛筆の罫線で区切る
+// 実績の一覧。代表例（featured）は挿絵つきで結果を大きく、そのほかはタイトルと結果だけのコンパクトな一覧
 import { getCollection } from "astro:content";
 import PencilRule from "./PencilRule.astro";
 interface Props { featuredOnly?: boolean; }
 const { featuredOnly = false } = Astro.props;
-const works = (await getCollection("works", ({ data }) => data.published && (!featuredOnly || data.featured))).sort((a, b) => a.data.order - b.data.order);
+const all = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
+const featured = all.filter((w) => w.data.featured);
+const others = featuredOnly ? [] : all.filter((w) => !w.data.featured);
 ---
-<ul class="works-list">
-  {works.map((w, i) => (
+<ul class="works-featured">
+  {featured.map((w, i) => (
     <li id={w.id}>
       <PencilRule strength={2} seed={200 + i} />
-      <div class="work">
-        {w.data.client && <p class="client">{w.data.client}</p>}
-        <h3 class="pencil-font">{w.data.title}</h3>
-        <dl>
-          <div><dt>困りごと</dt><dd>{w.data.problem}</dd></div>
-          <div><dt>解消方法</dt><dd>{w.data.solution}</dd></div>
-          <div><dt>結果</dt><dd>{w.data.result}</dd></div>
-        </dl>
+      <div class:list={["work", { flip: i % 2 === 1 }]}>
+        {w.data.illust && <img class="illust" src={w.data.illust} alt="" width="360" height="240" loading="lazy" />}
+        <div class="body">
+          {w.data.client && <p class="client">{w.data.client}</p>}
+          <h3 class="pencil-font">{w.data.title}</h3>
+          <p class="result">{w.data.result}</p>
+          <dl>
+            <div><dt>困りごと</dt><dd>{w.data.problem}</dd></div>
+            <div><dt>解消方法</dt><dd>{w.data.solution}</dd></div>
+          </dl>
+        </div>
       </div>
     </li>
   ))}
 </ul>
 
+{others.length > 0 && (
+  <section class="others">
+    <PencilRule strength={2} seed={260} />
+    <h3 class="others-title pencil-font">そのほかの実績</h3>
+    <ul>
+      {others.map((w) => (
+        <li id={w.id}>
+          {w.data.client && <p class="client">{w.data.client}</p>}
+          <h4 class="pencil-font">{w.data.title}</h4>
+          <p class="result-sm">{w.data.result}</p>
+          <dl class="dl-sm">
+            <div><dt>困りごと</dt><dd>{w.data.problem}</dd></div>
+            <div><dt>解消方法</dt><dd>{w.data.solution}</dd></div>
+          </dl>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
 <style>
-  .works-list { list-style: none; padding: 0; }
-  .works-list li { scroll-margin-top: 90px; }
-  .works-list :global(.pencil-rule) { margin: 0; }
-  .work { padding: 28px 0 32px; }
+  ul { list-style: none; padding: 0; }
+  li { scroll-margin-top: 90px; }
+  .works-featured :global(.pencil-rule), .others :global(.pencil-rule) { margin: 0; }
+  .work { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: center; padding: 36px 0 40px; }
+  .work.flip { grid-template-columns: 1fr 300px; }
+  .work.flip .illust { order: 2; }
+  .illust { width: 100%; height: auto; }
   .client { font-size: 13px; font-weight: 700; color: var(--pencil); }
-  h3 { font-size: 23px; margin: 2px 0 16px; letter-spacing: 0.03em; }
-  dl div { display: grid; grid-template-columns: 6em 1fr; gap: 16px; padding: 5px 0; }
-  dt { color: var(--pencil); font-size: 14px; font-weight: 700; }
-  dd { font-size: 15px; color: #3d4148; }
-  @media (max-width: 640px) { dl div { grid-template-columns: 1fr; gap: 0; } }
+  h3 { font-size: 23px; margin: 2px 0 12px; letter-spacing: 0.03em; }
+  .result { font-family: var(--font-pencil-head); font-size: 18px; line-height: 1.8; color: #2b2f36; margin: 0 0 16px; }
+  dl div { display: grid; grid-template-columns: 5.5em 1fr; gap: 14px; padding: 4px 0; }
+  dt { color: var(--pencil); font-size: 13px; font-weight: 700; }
+  dd { font-size: 14px; color: #555a62; }
+
+  .others-title { font-size: 20px; margin: 32px 0 8px; }
+  .others ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 48px; }
+  .others li { padding: 18px 0; border-bottom: 1px dashed rgba(59, 111, 209, 0.35); }
+  .others h4 { font-size: 18px; margin: 2px 0 6px; font-weight: 400; }
+  .others .result-sm { font-family: var(--font-pencil-head); font-size: 16px; line-height: 1.75; color: #2b2f36; margin: 0 0 10px; }
+  .dl-sm div { display: block; padding: 3px 0; }
+  .dl-sm dt { font-size: 12px; }
+  .dl-sm dd { font-size: 13px; }
+
+  @media (max-width: 760px) {
+    .work, .work.flip { grid-template-columns: 1fr; gap: 16px; }
+    .work.flip .illust { order: 0; }
+    .illust { max-width: 300px; }
+    .others ul { grid-template-columns: 1fr; }
+    dl div { grid-template-columns: 1fr; gap: 0; }
+  }
 </style>

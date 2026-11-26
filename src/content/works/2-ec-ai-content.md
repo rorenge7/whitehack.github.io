@@ -6,4 +6,5 @@ solution: 仕入れ先の商品ページから画像と情報を取り込み、�
 result: 商品をより早く、より多く出品できるようになり、記事による集客にも手が回るように。担当者は確認と仕上げに集中できる
 order: 2
 featured: true
+illust: /illust/ec-ai-content.svg
 ---

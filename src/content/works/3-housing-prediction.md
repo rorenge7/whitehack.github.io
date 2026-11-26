@@ -6,4 +6,5 @@ solution: 過去の販売データに周辺施設などの地理情報を加え�
 result: 売れ残りそうな物件に早い段階で手を打てるようになり、資金が物件に眠る期間を短くして、ROA（総資産利益率）の改善につなげられるように
 order: 3
 featured: true
+illust: /illust/housing-prediction.svg
 ---

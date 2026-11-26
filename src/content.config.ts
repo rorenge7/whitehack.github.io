@@ -30,6 +30,7 @@ const works = defineCollection({
     result: z.string(), // 結果
     order: z.number().default(100), // 小さいほど先に表示
     featured: z.boolean().default(false), // true なら受託開発ページにも表示
+    illust: z.string().optional(), // 挿絵のパス（public/ 以下）
     published: z.boolean().default(true),
   }),
 });
