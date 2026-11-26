@@ -1,52 +1,82 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import Blob from "../../components/Blob.astro";
+import Crayon from "../../components/sketch/Crayon.astro";
+import SketchCta from "../../components/sketch/SketchCta.astro";
 import { servicesComingSoon } from "../../site";
 
 const services = (await getCollection("services", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
+const crayonColor = { orange: "var(--crayon-orange)", red: "var(--crayon-red)", yellow: "var(--crayon-yellow)", blue: "var(--pencil)" } as const;
 ---
-<Base title="自社サービス" description="株式会社白白が運営する自社サービスの一覧です。" theme="orange" shape="round">
-  <section class="page-head">
-    <div class="wrap">
-      <p class="kicker">サービスを使う方へ</p>
-      <h1>自社サービス</h1>
-      <p class="lead">白白が企画・開発・運営しているサービスです。それぞれのサービスに、それぞれの色があります。</p>
-    </div>
-  </section>
+<Base title="自社サービス" description="株式会社白白が企画・開発・運営している自社サービスの一覧です。">
+  <div class="sketch-page crayon-page">
+    <section class="head">
+      <div class="wrap">
+        <p class="kicker">サービスを使う方へ</p>
+        <h1 class="crayon-font">自社サービス</h1>
+        <div class="underline"><Crayon shape="underline" color="var(--crayon-orange)" strength={2} seed={81} /></div>
+        <p class="lead">白白が企画・開発・運営しているサービスです。暮らしや仕事の小さな困りごとを、ひとつずつ解いていきます。</p>
+      </div>
+    </section>
 
-  <section class="section">
-    <div class="wrap">
-      {services.length === 0 && <p class="lead-empty">{servicesComingSoon}</p>}
-      <ul class="list">
-        {services.map((s, i) => (
-          <li data-theme={s.data.color}>
-            <a href={`/services/${s.id}/`}>
-              <Blob color="var(--paint)" variant={((i + 1) % 4) as 0 | 1 | 2 | 3} class="paint" />
-              <div>
-                <span class="status">{s.data.status}</span>
-                <h2>{s.data.name}</h2>
-                <p>{s.data.catch}</p>
-              </div>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+    <section class="block">
+      <div class="wrap">
+        {services.length === 0 ? (
+          <div class="coming-soon">
+            <Crayon color="var(--crayon-orange)" strength={2} seed={95} class="cs-blob" />
+            <Crayon color="var(--crayon-yellow)" strength={2} seed={97} class="cs-blob2" />
+            <span class="status">準備中</span>
+            <h2 class="crayon-font">近日公開</h2>
+            <p>{servicesComingSoon}</p>
+          </div>
+        ) : (
+          <ul class="cards">
+            {services.map((s, i) => (
+              <li>
+                <a href={`/services/${s.id}/`}>
+                  <Crayon color={crayonColor[s.data.color]} strength={2} seed={90 + i * 3} class="card-blob" />
+                  <span class="status">{s.data.status}</span>
+                  <h2 class="crayon-font">{s.data.name}</h2>
+                  <p>{s.data.catch}</p>
+                  <span class="go">くわしく見る</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </section>
+
+    <SketchCta title="サービスについてのお問い合わせ" text="サービスの使い方やご要望、取材・提携のご相談などを受け付けています。" />
+  </div>
 </Base>
 
 <style>
-  .lead-empty { font-size: 18px; max-width: 34em; }
-  .list { list-style: none; padding: 0; display: grid; gap: 20px; }
-  .list a { display: grid; grid-template-columns: 120px 1fr; gap: 32px; align-items: center; padding: 32px; border-radius: 28px; background: var(--soft); text-decoration: none; transition: transform .2s; }
-  .list a:hover { transform: translateY(-2px); }
-  :global(.list .paint) { width: 120px; }
-  .status { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 99px; background: var(--canvas); color: var(--deep); }
-  .list h2 { font-size: 24px; margin-top: 8px; }
-  .list p { color: var(--sub); margin-top: 4px; }
-  @media (max-width: 640px) {
-    .list a { grid-template-columns: 1fr; gap: 16px; padding: 24px; }
-    :global(.list .paint) { width: 72px; }
+  .crayon-page { font-family: var(--font-crayon); }
+  .head { padding: 72px 0 8px; }
+  .kicker { color: #c2621c; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  h1 { font-size: clamp(34px, 4.4vw, 52px); letter-spacing: 0.06em; line-height: 1.4; }
+  .underline { width: min(300px, 60%); margin-top: 8px; }
+  .lead { margin-top: 24px; max-width: 34em; color: var(--sub); line-height: 2; }
+
+  .coming-soon { position: relative; max-width: 680px; padding: 48px 44px; border-radius: 28px; background: #fff; box-shadow: inset 0 0 0 1px #ece6da; overflow: hidden; }
+  .coming-soon :global(.cs-blob) { position: absolute; right: -30px; top: -34px; width: 170px; }
+  .coming-soon :global(.cs-blob2) { position: absolute; right: 96px; top: 56px; width: 54px; }
+  .coming-soon h2 { font-size: 30px; margin-top: 28px; }
+  .coming-soon p { margin-top: 10px; max-width: 26em; color: var(--sub); line-height: 2; }
+
+  .cards { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .cards a { position: relative; display: block; height: 100%; padding: 36px 32px 32px; border-radius: 28px; background: #fff; text-decoration: none; color: inherit; overflow: hidden; box-shadow: inset 0 0 0 1px #ece6da; transition: transform .2s; }
+  .cards a:hover { transform: translateY(-3px); }
+  .cards :global(.card-blob) { position: absolute; right: -24px; top: -24px; width: 140px; }
+  .cards h2 { font-size: 26px; margin-top: 44px; }
+  .cards p { margin-top: 8px; color: var(--sub); line-height: 1.9; }
+  .go { display: inline-block; margin-top: 20px; font-size: 14px; color: #c2621c; border-bottom: 2px solid rgba(239, 138, 58, .5); }
+
+  .status { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 14px; border-radius: 99px; background: #fbefe2; color: #8a3f10; }
+
+  @media (max-width: 760px) {
+    .cards { grid-template-columns: 1fr; }
+    .coming-soon { padding: 36px 24px; }
   }
 </style>
