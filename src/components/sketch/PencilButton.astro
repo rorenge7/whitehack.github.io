@@ -42,7 +42,8 @@ const fill = pencilFill(200, 50, small ? 17 : 23); // 塗りボタン用の色�
     transition: background .15s;
   }
   .pencil-btn.small { padding: 8px 18px; font-size: 14px; }
-  .pencil-btn.fill { color: #fff; font-weight: 700; -webkit-text-stroke: 0.5px #fff; text-shadow: 0 0 3px rgba(20, 45, 110, .8), 0 0 1px rgba(20, 45, 110, .8); }
+  /* 白い文字に濃い青の縁取り（2px） */
+  .pencil-btn.fill { color: #fff; font-weight: 700; -webkit-text-stroke: 0.6px #fff; text-shadow: 2.00px 0.00px 0 rgba(22, 48, 112, .75), 1.85px 0.77px 0 rgba(22, 48, 112, .75), 1.41px 1.41px 0 rgba(22, 48, 112, .75), 0.77px 1.85px 0 rgba(22, 48, 112, .75), 0.00px 2.00px 0 rgba(22, 48, 112, .75), -0.77px 1.85px 0 rgba(22, 48, 112, .75), -1.41px 1.41px 0 rgba(22, 48, 112, .75), -1.85px 0.77px 0 rgba(22, 48, 112, .75), -2.00px 0.00px 0 rgba(22, 48, 112, .75), -1.85px -0.77px 0 rgba(22, 48, 112, .75), -1.41px -1.41px 0 rgba(22, 48, 112, .75), -0.77px -1.85px 0 rgba(22, 48, 112, .75), -0.00px -2.00px 0 rgba(22, 48, 112, .75), 0.77px -1.85px 0 rgba(22, 48, 112, .75), 1.41px -1.41px 0 rgba(22, 48, 112, .75), 1.85px -0.77px 0 rgba(22, 48, 112, .75), 0 0 4px rgba(22, 48, 112, .5); }
   .pencil-btn:not(.fill):hover { background: rgba(59, 111, 209, 0.07); }
   .pencil-btn.fill:hover { filter: brightness(1.08); }
   .pb-bg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
