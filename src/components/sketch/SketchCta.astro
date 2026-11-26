@@ -1,0 +1,28 @@
+---
+// お問い合わせへの誘導（色鉛筆の枠）
+import PencilBox from "./PencilBox.astro";
+interface Props { title?: string; text?: string; }
+const {
+  title = "ご相談・お問い合わせ",
+  text = "開発のご依頼、サービスについてのご質問、お取引のご相談などを受け付けています。",
+} = Astro.props;
+---
+<section class="block">
+  <div class="wrap">
+    <PencilBox strength={2} seed={180}>
+      <div class="sketch-cta">
+        <div>
+          <h2 class="pencil-font">{title}</h2>
+          <p>{text}</p>
+        </div>
+        <a class="btn-ink" href="/contact/">お問い合わせへ</a>
+      </div>
+    </PencilBox>
+  </div>
+</section>
+
+<style>
+  .sketch-cta { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; padding: 8px 4px; }
+  h2 { font-size: 28px; letter-spacing: 0.06em; }
+  p { margin-top: 8px; color: var(--sub); }
+</style>

@@ -1,13 +1,14 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
-import Blob from "../components/Blob.astro";
-import Cta from "../components/Cta.astro";
+import SketchHead from "../components/sketch/SketchHead.astro";
+import SketchCta from "../components/sketch/SketchCta.astro";
+import PencilBox from "../components/sketch/PencilBox.astro";
+import PencilRule from "../components/sketch/PencilRule.astro";
 import { company, contractServices, contractLead, profile } from "../site";
 
 const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
 
-const services = contractServices;
 const steps = [
   { title: "ヒアリング", text: "課題、実現したいこと、予算と時期の感触を伺います。" },
   { title: "ご提案・お見積り", text: "開発範囲と進め方を整理し、作業ごとの内訳つきで見積りをお出しします。" },
@@ -16,111 +17,140 @@ const steps = [
   { title: "公開・保守", text: "公開後も、不具合対応や機能追加を継続してお引き受けします。" },
 ];
 ---
-<Base title="受託開発" description="株式会社白白の受託開発。Webアプリ・業務システム・Webサイトを、要件整理から保守まで一貫して開発します。" theme="blue" shape="square">
-  <section class="page-head">
-    <div class="wrap">
-      <p class="kicker">企業の方へ</p>
-      <h1>受託開発</h1>
-      <p class="lead">{contractLead}</p>
-    </div>
-    <Blob color="var(--blue)" variant={0} class="head-paint" />
-  </section>
+<Base title="受託開発" description="株式会社白白の受託開発。Webアプリケーションからクラウド・インフラまで、要件の整理から開発・運用まで一貫してお引き受けします。">
+  <div class="sketch-page">
+    <SketchHead kicker="企業の方へ" title="受託開発" lead={contractLead} />
 
-  <section class="section">
-    <div class="wrap">
-      <h2 class="section-title">対応できること</h2>
-      <div class="svc-grid">
-        {services.map((s) => (
-          <article class="svc">
-            <h3>{s.title}</h3>
-            <p>{s.text}</p>
-            {s.note && <p class="note">{s.note}</p>}
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section-alt">
-    <div class="wrap">
-      <h2 class="section-title">ご依頼の流れ</h2>
-      <ol class="steps">
-        {steps.map((s, i) => (
-          <li><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.text}</p></li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap profile">
-      <div>
-        <h2 class="section-title">担当者</h2>
-        <p class="name">{company.representative}</p>
-        <p class="muted">{company.title}</p>
-      </div>
-      <div>
-        <p class="profile-lead">ご相談の窓口から設計・開発まで、代表が直接担当します。伝えた内容がそのまま形になり、判断も速く進みます。</p>
-        <p style="margin-top:20px">{profile.summary}</p>
-        <p class="muted" style="margin-top:16px;font-size:14px">主な資格：{profile.qualifications}</p>
-        
-      </div>
-    </div>
-  </section>
-
-  {works.length > 0 && (
-    <section class="section">
+    <!-- 対応できること -->
+    <section class="block">
       <div class="wrap">
-        <div class="section-title-row">
-          <h2 class="section-title">実績</h2>
-          <a class="text-link" href="/works/">すべて見る</a>
-        </div>
-        <ul class="work-cards">
-          {works.map((w) => (
-            <li><a href={`/works/#${w.id}`}><span class="cat">{w.data.client}</span><h3>{w.data.title}</h3><p class="muted">{w.data.result}</p></a></li>
-          ))}
-        </ul>
+        <h2 class="pencil-font block-title">対応できること</h2>
+        <PencilBox strength={2} seed={21}>
+          <ul class="svc-list">
+            {contractServices.map((s, i) => (
+              <li>
+                {i > 0 && <PencilRule strength={2} seed={30 + i} />}
+                <div class="svc">
+                  <h3 class="pencil-font">{s.title}</h3>
+                  <div>
+                    <p>{s.text}</p>
+                    {s.note && <p class="note">{s.note}</p>}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </PencilBox>
       </div>
     </section>
-  )}
 
-  <Cta title="開発のご相談" text="仕様が固まっていない段階でも構いません。分かる範囲でお知らせください。" />
+    <!-- ご依頼の流れ -->
+    <section class="block block-tint">
+      <div class="wrap">
+        <h2 class="pencil-font block-title">ご依頼の流れ</h2>
+        <ol class="steps">
+          {steps.map((s, i) => (
+            <li>
+              <span class="step-n pencil-font">{i + 1}</span>
+              <h3 class="pencil-font">{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="steps-note">仕様が固まっていない段階でも構いません。整理するところからお手伝いします。</p>
+      </div>
+    </section>
+
+    <!-- 担当者 -->
+    <section class="block">
+      <div class="wrap person">
+        <div>
+          <h2 class="pencil-font block-title">担当者</h2>
+          <p class="name pencil-font">{company.representative}</p>
+          <p class="muted">{company.title}</p>
+        </div>
+        <div>
+          <p class="person-lead">ご相談の窓口から設計・開発まで、代表が直接担当します。伝えた内容がそのまま形になり、判断も速く進みます。</p>
+          <PencilRule strength={2} seed={77} />
+          <p>{profile.summary}</p>
+          <p class="muted quals">主な資格：{profile.qualifications}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 実績 -->
+    {works.length > 0 && (
+      <section class="block block-tint">
+        <div class="wrap">
+          <h2 class="pencil-font block-title">実績</h2>
+          <ul class="ruled">
+            {works.map((w, i) => (
+              <li>
+                <PencilRule strength={2} seed={120 + i} />
+                <a href={`/works/#${w.id}`}>
+                  <span class="cat">{w.data.client}</span>
+                  <span class="ttl">{w.data.title}</span>
+                  <span class="muted sm">{w.data.result}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="more"><a class="link-pencil" href="/works/">実績一覧</a></p>
+        </div>
+      </section>
+    )}
+
+    <SketchCta title="開発のご相談" text="仕様が固まっていない段階でも構いません。分かる範囲でお知らせください。" />
+  </div>
 </Base>
 
 <style>
-  .page-head { padding-right: 0; }
-  :global(.head-paint) { position: absolute; right: max(4vw, 24px); top: 50%; translate: 0 -50%; width: clamp(120px, 18vw, 240px); opacity: .95; }
-  .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); row-gap: 8px; gap: 0; border-top: 2px solid var(--deep); }
-  .svc { padding: 32px 28px 8px 0; }
-  .svc + .svc { padding-left: 28px; border-left: 1px solid var(--rule); }
-  .svc h3 { font-size: 20px; }
-  .svc p { margin-top: 12px; color: var(--sub); font-size: 15px; }
-  .svc .note { margin-top: 12px; font-size: 13px; color: var(--deep); }
-  .svc li::marker { color: var(--paint); }
+  .muted { color: var(--sub); }
+  .sm { font-size: 14px; }
+  .more { margin-top: 28px; }
 
-  .steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-  .steps li { background: var(--canvas); border-top: 3px solid var(--paint); padding: 24px 20px; }
-  .steps .n { font-weight: 700; color: var(--deep); font-size: 14px; letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
-  .steps h3 { font-size: 17px; margin-top: 8px; }
-  .steps p { font-size: 14px; color: var(--sub); margin-top: 8px; line-height: 1.8; }
+  .svc-list { list-style: none; padding: 0; }
+  .svc-list :global(.pencil-rule) { margin: 22px 0; }
+  .svc { display: grid; grid-template-columns: 15em 1fr; gap: 32px; align-items: baseline; }
+  .svc h3 { font-size: 22px; letter-spacing: 0.04em; }
+  .svc p { color: var(--sub); font-size: 15px; }
+  .svc .note { margin-top: 6px; font-size: 13px; color: var(--pencil); }
 
-  .profile { display: grid; grid-template-columns: 4fr 8fr; gap: 48px; }
-  .profile .section-title { margin-bottom: 20px; }
-  .name { font-size: 28px; font-weight: 700; letter-spacing: 0.16em; }
-  .profile-lead { font-size: 18px; }
+  .steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; position: relative; }
+  .steps::before { content: ""; position: absolute; top: 22px; left: 22px; right: 18%; border-top: 1.4px dashed var(--pencil); opacity: .6; }
+  .steps li { position: relative; }
+  .step-n {
+    position: relative; display: grid; place-items: center;
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1.6px solid var(--pencil); background: #faf6ee; color: var(--pencil);
+    font-size: 20px; margin-bottom: 18px;
+  }
+  .steps h3 { font-size: 19px; }
+  .steps p { margin-top: 6px; font-size: 14px; color: var(--sub); line-height: 1.85; }
+  .steps-note { margin-top: 32px; color: var(--sub); font-size: 15px; }
 
-  .work-cards { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .work-cards a { display: block; height: 100%; padding: 24px; border: 1px solid var(--rule); border-radius: 4px; text-decoration: none; }
-  .work-cards a:hover { border-color: var(--paint); }
-  .work-cards .cat { font-size: 12px; font-weight: 700; color: var(--deep); }
-  .work-cards h3 { font-size: 17px; margin: 6px 0 8px; }
-  .work-cards p { font-size: 14px; }
+  .person { display: grid; grid-template-columns: 4fr 8fr; gap: 56px; }
+  .person .block-title { margin-bottom: 16px; }
+  .name { font-size: 30px; letter-spacing: 0.14em; }
+  .person-lead { font-size: 19px; line-height: 1.9; }
+  .person :global(.pencil-rule) { margin: 22px 0; }
+  .quals { margin-top: 14px; font-size: 14px; }
 
+  .ruled { list-style: none; padding: 0; max-width: 860px; }
+  .ruled :global(.pencil-rule) { margin: 0; }
+  .ruled a { display: grid; gap: 2px; padding: 16px 0; text-decoration: none; }
+  .ruled a:hover .ttl { text-decoration: underline; }
+  .cat { font-size: 12px; font-weight: 700; color: var(--pencil); }
+  .ttl { font-weight: 700; }
+
+  @media (max-width: 980px) {
+    .steps { grid-template-columns: 1fr; gap: 24px; }
+    .steps::before { display: none; }
+    .steps li { display: grid; grid-template-columns: 64px 1fr; }
+    .steps .step-n { grid-row: span 2; margin: 0; }
+  }
   @media (max-width: 880px) {
-    :global(.head-paint) { width: 96px; top: 24px; translate: none; opacity: .9; }
-    .svc-grid, .profile, .work-cards { grid-template-columns: 1fr; }
-    .svc, .svc + .svc { padding: 24px 0; border-left: none; }
-    .svc + .svc { border-top: 1px solid var(--rule); }
-    .steps { grid-template-columns: 1fr; }
+    .svc, .person { grid-template-columns: 1fr; gap: 8px; }
+    .person { gap: 24px; }
   }
 </style>

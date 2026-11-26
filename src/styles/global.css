@@ -168,3 +168,23 @@ a { color: inherit; }
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
 }
+
+/* ==========================================================
+   鉛筆とクレヨン（新デザインの共通スタイル）
+   ========================================================== */
+body { background: var(--paper-warm); }
+.site-header { background: var(--paper-warm); }
+.pencil-font { font-family: var(--font-pencil-head); font-weight: 400; }
+.pencil-body { font-family: var(--font-pencil); }
+.crayon-font { font-family: var(--font-crayon); font-weight: 500; }
+.link-pencil, .link-crayon { font-weight: 700; text-decoration: none; padding-bottom: 3px; }
+.link-pencil { color: var(--pencil); border-bottom: 1.5px solid var(--pencil); }
+.link-crayon { color: #b4561a; border-bottom: 3px solid var(--crayon-orange); border-radius: 2px; }
+.link-pencil:hover, .link-crayon:hover { opacity: .75; }
+.block { padding: 96px 0; }
+.block-tint { background: #faf6ee; }
+.block-title { font-size: clamp(26px, 3vw, 34px); letter-spacing: 0.06em; margin-bottom: 32px; }
+.btn-ink { display: inline-block; padding: 14px 28px; background: var(--ink); color: #fff; font-weight: 700; text-decoration: none; }
+.btn-ink:hover { background: var(--pencil); }
+.sketch-page { font-family: var(--font-pencil); }
+@media (max-width: 880px) { .block { padding: 72px 0; } }
