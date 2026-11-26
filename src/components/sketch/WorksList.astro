@@ -2,7 +2,9 @@
 // 実績の一覧（困りごと・解消方法・結果）。鉛筆の罫線で区切る
 import { getCollection } from "astro:content";
 import PencilRule from "./PencilRule.astro";
-const works = (await getCollection("works", ({ data }) => data.published)).sort((a, b) => a.data.order - b.data.order);
+interface Props { featuredOnly?: boolean; }
+const { featuredOnly = false } = Astro.props;
+const works = (await getCollection("works", ({ data }) => data.published && (!featuredOnly || data.featured))).sort((a, b) => a.data.order - b.data.order);
 ---
 <ul class="works-list">
   {works.map((w, i) => (

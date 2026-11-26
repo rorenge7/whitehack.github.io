@@ -29,6 +29,7 @@ const works = defineCollection({
     solution: z.string(), // 解消方法（技術的な言葉も入れてよい）
     result: z.string(), // 結果
     order: z.number().default(100), // 小さいほど先に表示
+    featured: z.boolean().default(false), // true なら受託開発ページにも表示
     published: z.boolean().default(true),
   }),
 });
