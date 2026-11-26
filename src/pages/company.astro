@@ -1,46 +1,92 @@
 ---
 import Base from "../layouts/Base.astro";
-import Cta from "../components/Cta.astro";
+import SketchHead from "../components/sketch/SketchHead.astro";
+import SketchCta from "../components/sketch/SketchCta.astro";
+import PencilBox from "../components/sketch/PencilBox.astro";
+import PencilRule from "../components/sketch/PencilRule.astro";
 import { company, profile } from "../site";
 
-const todo = "【要記入】";
+const rows: [string, string | string[]][] = [
+  ["商号", `${company.name}（${company.kana}）`],
+  ["代表者", `${company.title}　${company.representative}`],
+  ["所在地", `〒${company.postalCode} ${company.address}`],
+  ["設立", company.founded],
+  ["資本金", company.capital],
+  ["法人番号", company.corporateNumber],
+  ["事業内容", company.business],
+];
 ---
-<Base title="会社概要" description="株式会社白白の会社概要。所在地、設立、資本金、法人番号、事業内容。">
-  <section class="page-head">
-    <div class="wrap">
-      <h1>会社概要</h1>
-    </div>
-  </section>
+<Base title="会社概要" description="株式会社白白の会社概要。所在地、設立、資本金、法人番号、事業内容、代表プロフィール。">
+  <div class="sketch-page">
+    <SketchHead title="会社概要" lead="白白（しらしろ）は、白い紙のような会社です。お客様の困りごとを起点に、その事業の色に合わせて、仕組みを描き、形にしています。" />
 
-  <section class="section">
-    <div class="narrow">
-      <dl class="data-table">
-        <div><dt>商号</dt><dd>{company.name}（{company.kana}）<br /><span class="muted">{company.en}</span></dd></div>
-        <div><dt>代表者</dt><dd>{company.title}　{company.representative}</dd></div>
-        <div><dt>所在地</dt><dd>
-          {company.postalCode ? `〒${company.postalCode}` : <span class="todo">〒{todo}</span>}<br />
-          {company.address}
-        </dd></div>
-        <div><dt>設立</dt><dd>{company.founded}</dd></div>
-        <div><dt>資本金</dt><dd>{company.capital || <span class="todo">{todo}</span>}</dd></div>
-        <div><dt>法人番号</dt><dd>{company.corporateNumber || <span class="todo">{todo}</span>}</dd></div>
-        <div><dt>事業内容</dt><dd>{company.business.map((b) => <>{b}<br /></>)}</dd></div>
-      </dl>
-    </div>
-  </section>
+    <section class="block">
+      <div class="wrap">
+        <h2 class="pencil-font block-title">会社情報</h2>
+        <PencilBox strength={2} seed={41}>
+          <dl class="info">
+            {rows.map(([k, v], i) => (
+              <div>
+                {i > 0 && <PencilRule strength={1} seed={50 + i} />}
+                <div class="row">
+                  <dt class="pencil-font">{k}</dt>
+                  <dd>
+                    {Array.isArray(v)
+                      ? <ul class="biz">{v.map((b) => <li>{b}</li>)}</ul>
+                      : <>{v}{k === "商号" && <span class="en">{company.en}</span>}</>}
+                  </dd>
+                </div>
+              </div>
+            ))}
+          </dl>
+        </PencilBox>
+      </div>
+    </section>
 
-  <section class="section-alt" id="profile">
-    <div class="narrow">
-      <h2 class="section-title">代表プロフィール</h2>
-      <p class="name">{company.title}　{company.representative}</p>
-      <p style="margin-top:20px">{profile.summary}</p>
-      <p class="muted" style="margin-top:16px;font-size:14px">主な資格：{profile.qualifications}</p>
-    </div>
-  </section>
+    <section class="block block-tint" id="profile">
+      <div class="wrap">
+        <h2 class="pencil-font block-title">代表プロフィール</h2>
+        <div class="profile">
+          <p class="role">{company.title}</p>
+          <p class="name pencil-font">{company.representative}</p>
+          <PencilRule strength={2} seed={71} />
+          <p class="summary">{profile.summary}</p>
+          <p class="qual"><span>主な資格</span>{profile.qualifications}</p>
+        </div>
+      </div>
+    </section>
 
-  <Cta />
+    <section class="block">
+      <div class="wrap">
+        <h2 class="pencil-font block-title">社名について</h2>
+        <p class="origin">「白白」という社名は、違法ではない真っ白なハック、「ホワイトハック」をやっていこうという思いから生まれました。白ハク、そして白白へと縮めて、いまの名前になっています。</p>
+      </div>
+    </section>
+
+    <SketchCta />
+  </div>
 </Base>
 
 <style>
-  .name { font-weight: 700; letter-spacing: 0.12em; }
+  .info { margin: 0; }
+  .info :global(.pencil-rule) { margin: 18px 0; }
+  .row { display: grid; grid-template-columns: 10em 1fr; gap: 32px; align-items: baseline; }
+  dt { font-size: 18px; letter-spacing: 0.06em; color: var(--pencil); }
+  dd { font-size: 15px; color: #3d4148; }
+  .en { display: block; font-size: 13px; color: var(--sub); margin-top: 2px; }
+  .biz { list-style: none; padding: 0; display: grid; gap: 4px; }
+
+  .profile { max-width: 720px; }
+  .role { font-size: 14px; color: var(--pencil); font-weight: 700; }
+  .name { font-size: 30px; letter-spacing: 0.14em; margin-top: 2px; }
+  .profile :global(.pencil-rule) { width: 220px; margin: 14px 0 22px; }
+  .summary { font-size: 16px; line-height: 2; color: #3d4148; }
+  .qual { margin-top: 20px; font-size: 14px; color: var(--sub); }
+  .qual span { color: var(--pencil); font-weight: 700; margin-right: 1em; }
+
+  .origin { max-width: 720px; font-size: 16px; line-height: 2; color: #3d4148; }
+
+  @media (max-width: 640px) {
+    .row { grid-template-columns: 1fr; gap: 4px; }
+  }
 </style>
