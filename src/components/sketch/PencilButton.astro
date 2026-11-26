@@ -1,10 +1,10 @@
 ---
 // 鉛筆で描いたボタン。variant: "marks"（線＋合わせの十字）/ "outline"（線のみ）/ "fill"（青鉛筆で塗る）
-interface Props { href: string; variant?: "marks" | "outline" | "fill"; small?: boolean; }
-const { href, variant = "marks", small = false } = Astro.props;
+interface Props { href: string; variant?: "marks" | "outline" | "fill"; small?: boolean; external?: boolean; }
+const { href, variant = "marks", small = false, external = false } = Astro.props;
 const id = `pb-${variant}-${small ? "s" : "l"}`;
 ---
-<a class:list={["pencil-btn", variant, { small }]} href={href}>
+<a class:list={["pencil-btn", variant, { small }]} href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>
   <svg class="pb-bg" viewBox="0 0 200 50" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <filter id={id} x="-2%" y="-10%" width="104%" height="120%">
