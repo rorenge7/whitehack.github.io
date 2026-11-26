@@ -13,7 +13,7 @@ const others = featuredOnly ? [] : all.filter((w) => !w.data.featured);
     <li id={w.id}>
       <PencilRule strength={2} seed={200 + i} />
       <div class:list={["work", { flip: i % 2 === 1 }]}>
-        {w.data.illust && <img class="illust" src={w.data.illust} alt="" width="360" height="240" loading="lazy" />}
+        {w.data.illust && <img class="illust" src={w.data.illust} alt="" width="360" height="240" />}
         <div class="body">
           {w.data.client && <p class="client">{w.data.client}</p>}
           <h3 class="pencil-font">{w.data.title}</h3>
